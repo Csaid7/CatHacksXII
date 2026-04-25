@@ -1,6 +1,14 @@
-<<<<<<< HEAD
+# Secrets
 .env
-=======
-# Godot 4+ specific ignores
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+server/debug.txt
+
+# Godot generated files
 .godot/
->>>>>>> origin/Kiara
+
+# HTML5 export output (wherever you export to)
+export/

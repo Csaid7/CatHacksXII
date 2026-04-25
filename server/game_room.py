@@ -31,7 +31,6 @@ class GameRoom:
         self.round_num    = 0
         self.time_left    = ROUND_TIME
         self.current_q    = None
-        self.next_q       = None   # prefetched so there's no gap between rounds
         self._timer       = None   # asyncio Task for the countdown
         self._broadcast   = None   # asyncio Task for the position stream
         self.round_active = False
@@ -54,7 +53,7 @@ class GameRoom:
         }
         await self._broadcast_room_update(sid)
         # Fourth player joining fills the room — kick off the game automatically
-        if len(self.players) == 4:
+        if len(self.players) == 2:
             asyncio.create_task(self.start_game())
 
     async def player_left(self, sid: str):
@@ -90,7 +89,7 @@ class GameRoom:
         countdown = 3
         await self.sio.emit("game_starting", {"countdown": countdown}, room=self.room_code)
         await asyncio.sleep(countdown)
-        self.current_q = await generate_question()
+        self.current_q = generate_question()
         await self._start_round()
 
     async def _start_round(self):
@@ -105,9 +104,6 @@ class GameRoom:
             for platform, pos in zip(self.current_q["platforms"], positions)
         ]
 
-        # Fire off the next question fetch now so it's ready before this round ends
-        asyncio.create_task(self._prefetch_next())
-
         await self.sio.emit("round_start", {
             "round":     self.round_num,
             "maxRounds": MAX_ROUNDS,
@@ -118,10 +114,6 @@ class GameRoom:
         self._broadcast   = asyncio.create_task(self._broadcast_loop())
         self._timer       = asyncio.create_task(self._run_timer())
         self.round_active = True
-
-    async def _prefetch_next(self):
-        # Runs in the background so the next round starts immediately after RESULT_WAIT
-        self.next_q = await generate_question()
 
     async def _run_timer(self):
         try:
@@ -161,9 +153,7 @@ class GameRoom:
         if self.round_num >= MAX_ROUNDS:
             await self._end_game()
         else:
-            # Use the prefetched question if it arrived in time; otherwise fetch now (blocks briefly)
-            self.current_q = self.next_q if self.next_q else await generate_question()
-            self.next_q    = None
+            self.current_q = generate_question()
             await self._start_round()
 
     async def _end_game(self):

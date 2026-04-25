@@ -5,6 +5,7 @@ Run: uvicorn index:socket_app --host 0.0.0.0 --port 3000 --reload
 
 import socketio
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from game_room import GameRoom
 
 # Socket.io handles WebSocket connections; FastAPI is the HTTP wrapper around it
@@ -13,7 +14,7 @@ app = FastAPI()
 socket_app = socketio.ASGIApp(sio, app)
 
 # Uncomment once you've exported the Godot project to godot/export/
-# app.mount("/", StaticFiles(directory="../godot/export", html=True), name="game")
+app.mount("/", StaticFiles(directory="../godot/export", html=True), name="game")
 
 # rooms maps a 4-letter code to the GameRoom object managing that game
 # player_rooms lets us quickly look up which room any connected socket belongs to
