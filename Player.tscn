@@ -1,10 +1,28 @@
-[gd_scene load_steps=27 format=3 uid="uid://b1u6o8nqmnrsu"]
+[gd_scene load_steps=37 format=3 uid="uid://b1u6o8nqmnrsu"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_l0me3"]
 [ext_resource type="Texture2D" uid="uid://dnbcugywiexqb" path="res://CatHacksXIIJumpCycle-01.png" id="2_182p4"]
 [ext_resource type="Texture2D" uid="uid://sb558b7vb2ks" path="res://CatHacksXIIRunCycle-01.png" id="2_210dh"]
 [ext_resource type="Texture2D" uid="uid://d1qm8ou4uui0w" path="res://CatHacksXIIIdle-01.png" id="2_24271"]
+[ext_resource type="Texture2D" uid="uid://dmfnrwyaqr3v7" path="res://CatHacksXIIHit-01.png" id="2_lu5d4"]
 [ext_resource type="Texture2D" uid="uid://ibo52eno6ayp" path="res://CatHacksXIIPunch-01.png" id="3_41cyl"]
+[ext_resource type="Texture2D" uid="uid://dlpjgu0vkx75g" path="res://CatHacksXIISuckerPunched-01.png" id="7_mqbjd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e3hg5"]
+atlas = ExtResource("2_lu5d4")
+region = Rect2(0, 0, 472, 458)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uq16x"]
+atlas = ExtResource("2_lu5d4")
+region = Rect2(472, 0, 472, 458)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1wauj"]
+atlas = ExtResource("2_lu5d4")
+region = Rect2(944, 0, 472, 458)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c7ci8"]
+atlas = ExtResource("2_lu5d4")
+region = Rect2(0, 458, 472, 458)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jp1ce"]
 atlas = ExtResource("2_24271")
@@ -78,8 +96,41 @@ region = Rect2(960, 472, 480, 472)
 atlas = ExtResource("2_210dh")
 region = Rect2(0, 944, 480, 472)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_243f6"]
+atlas = ExtResource("7_mqbjd")
+region = Rect2(0, 0, 474, 458)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vcw00"]
+atlas = ExtResource("7_mqbjd")
+region = Rect2(474, 0, 474, 458)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w5tce"]
+atlas = ExtResource("7_mqbjd")
+region = Rect2(948, 0, 474, 458)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hbx8j"]
+atlas = ExtResource("7_mqbjd")
+region = Rect2(0, 458, 474, 458)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_d6np2"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e3hg5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uq16x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1wauj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c7ci8")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jp1ce")
@@ -153,6 +204,23 @@ animations = [{
 "loop": true,
 "name": &"run",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_243f6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vcw00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w5tce")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hbx8j")
+}],
+"loop": false,
+"name": &"suckerPunched",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wnoes"]
@@ -168,8 +236,9 @@ script = ExtResource("1_l0me3")
 position = Vector2(-1.90735e-06, -9.53674e-07)
 scale = Vector2(0.161899, 0.169161)
 sprite_frames = SubResource("SpriteFrames_d6np2")
-animation = &"punch"
+animation = &"suckerPunched"
 autoplay = "idle"
+speed_scale = 2.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_wnoes")
