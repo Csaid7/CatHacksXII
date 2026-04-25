@@ -1,0 +1,1978 @@
+[
+  {
+    "category": "Science",
+    "question": "What is the chemical symbol for gold?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Go",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Gd",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Au",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "Ag",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "Which planet in our solar system has the most moons?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Saturn",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Jupiter",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Uranus",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Neptune",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "What is the speed of light in a vacuum?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "299,792 kilometers per second",
+        "isCorrect": true
+      },
+      {
+        "id": "B",
+        "label": "150,000 kilometers per second",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "500,000 kilometers per second",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "199,792 kilometers per second",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "What is the powerhouse of the cell?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Nucleus",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Mitochondria",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Ribosome",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Golgi apparatus",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "Which element has the atomic number 6?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Oxygen",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Carbon",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Nitrogen",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Boron",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "What type of animal is a dolphin?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Fish",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Amphibian",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Mammal",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "Reptile",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "How many bones are in the adult human body?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "186",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "206",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "216",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "196",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "What is the most abundant gas in Earth's atmosphere?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Oxygen",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Nitrogen",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Argon",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Carbon dioxide",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "What is the process by which plants convert sunlight into chemical energy?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Respiration",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Photosynthesis",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Fermentation",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Transpiration",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "What is the boiling point of water at sea level in Celsius?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "90\u00b0C",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "100\u00b0C",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "110\u00b0C",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "95\u00b0C",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "History",
+    "question": "In what year did the Titanic sink?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "1910",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "1912",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "1915",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "1911",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "History",
+    "question": "Which country was ruled by Napoleon Bonaparte?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Spain",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Italy",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "France",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "Austria",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "History",
+    "question": "In what year did the Berlin Wall fall?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "1987",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "1989",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "1991",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "1988",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "History",
+    "question": "Who was the first President of the United States?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Thomas Jefferson",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "George Washington",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Benjamin Franklin",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "John Adams",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "History",
+    "question": "In what year did the American Declaration of Independence occur?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "1773",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "1776",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "1775",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "1778",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "History",
+    "question": "Which ancient wonder is the only one still standing?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Hanging Gardens of Babylon",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Great Pyramid of Giza",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Colossus of Rhodes",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Lighthouse of Alexandria",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "History",
+    "question": "In what year did World War II end?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "1944",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "1945",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "1946",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "1943",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "History",
+    "question": "Which empire built Machu Picchu?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Aztec Empire",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Inca Empire",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Maya Empire",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Olmec Empire",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "History",
+    "question": "Who was the first Holy Roman Emperor?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Otto I",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Charlemagne",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Frederick Barbarossa",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Charles V",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "Which country has the most time zones?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Russia",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "France",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "United States",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "China",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "What is the capital of Australia?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Sydney",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Melbourne",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Canberra",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "Brisbane",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "Which is the longest river in the world?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Amazon River",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Nile River",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Yangtze River",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Mississippi River",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "How many countries border Switzerland?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "4",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "5",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "6",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "7",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "What is the smallest independent nation-state in the world by area?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Monaco",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "San Marino",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Vatican City",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "Liechtenstein",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "Which desert is the largest hot desert in the world?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Arabian Desert",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Sahara Desert",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Kalahari Desert",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Gobi Desert",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "Which U.S. state is the furthest north?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Montana",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Washington",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Alaska",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "Maine",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "What is the capital of New Zealand?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Auckland",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Wellington",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Christchurch",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Dunedin",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "Which mountain range contains Mount Everest?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Andes",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Himalayas",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Rockies",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Alps",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "What is the most populous city in North America?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "New York City",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Los Angeles",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Mexico City",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "Chicago",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "In what year was the first iPhone released?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "2005",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "2007",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "2008",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "2006",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Which artist has the most Grammy Awards of all time?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Beyonc\u00e9",
+        "isCorrect": true
+      },
+      {
+        "id": "B",
+        "label": "Georg Solti",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Quincy Jones",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Alicia Keys",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "What is the highest-grossing film of all time worldwide?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Avengers: Endgame",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Avatar: The Way of Water",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Avatar",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Titanic",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "How many seasons did the TV show 'Friends' run for?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "8",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "9",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "10",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "11",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Which streaming service released 'Stranger Things'?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Disney+",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Netflix",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Amazon Prime Video",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Hulu",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "What year did 'The Simpsons' first air on television?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "1987",
+        "isCorrect": true
+      },
+      {
+        "id": "B",
+        "label": "1989",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "1990",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "1991",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Who directed the film 'Inception'?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Steven Spielberg",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Christopher Nolan",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Denis Villeneuve",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Quentin Tarantino",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Which band released the album 'Thriller'?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Prince",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Michael Jackson",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "David Bowie",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Queen",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "What is the real name of the superhero 'Spider-Man'?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Peter Parker",
+        "isCorrect": true
+      },
+      {
+        "id": "B",
+        "label": "Tony Stark",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Bruce Banner",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Clark Kent",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "In what year did the first modern Olympic Games take place?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "1896",
+        "isCorrect": true
+      },
+      {
+        "id": "B",
+        "label": "1900",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "1892",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "1904",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "How many players are on a basketball court per team during play?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "4",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "5",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "6",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "7",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "Which country has won the most FIFA World Cup titles?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Germany",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "France",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Brazil",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "Italy",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "In tennis, what is the term for a score of zero points?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Nil",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Love",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Zero",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Blank",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "How many innings are in a standard baseball game?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "7",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "8",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "9",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "10",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "Which golfer has won the most major championships in history?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Jack Nicklaus",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Tiger Woods",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Rory McIlroy",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Brooks Koepka",
+        "isCorrect": true
+      }
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "In American football, how many points is a touchdown worth?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "5",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "6",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "7",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "8",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "Which swimmer holds the record for most Olympic gold medals?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Mark Spitz",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Michael Phelps",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Katie Ledecky",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Caeleb Dressel",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "What is the maximum break in snooker?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "100",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "120",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "147",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "180",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "In rugby, how many points is a try worth?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "3",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "4",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "5",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "6",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "Which country is credited with inventing pizza?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "France",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Spain",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Italy",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "Greece",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "What is the main ingredient in traditional hummus?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Chickpeas",
+        "isCorrect": true
+      },
+      {
+        "id": "B",
+        "label": "White beans",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Lentils",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Black beans",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "How many minutes should pasta typically cook?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "3-5 minutes",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "8-12 minutes",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "15-18 minutes",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "20-25 minutes",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "Which spice is the most expensive by weight?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Vanilla",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Saffron",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Cardamom",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Wasabi",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "What is the primary ingredient in traditional guacamole?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Lime juice",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Avocado",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Cilantro",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Jalape\u00f1o",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "Which country produces the most coffee in the world?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Colombia",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Vietnam",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Brazil",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "Ethiopia",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "What is the main ingredient in traditional falafel?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Lentils",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Chickpeas",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Black beans",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Peas",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "How many grams of sugar are typically in a standard Coca-Cola can?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "25 grams",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "35 grams",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "45 grams",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "55 grams",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "What percentage of alcohol is typically in wine?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "5-8%",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "12-15%",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "18-22%",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "25-30%",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "Which film won the Academy Award for Best Picture in 2020?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "1917",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Parasite",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Once Upon a Time in Hollywood",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Joker",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "In what year was the first Star Wars film released?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "1975",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "1977",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "1979",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "1981",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "Who directed the film 'Inception'?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Steven Spielberg",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Christopher Nolan",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Denis Villeneuve",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Ridley Scott",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "What is the highest-grossing film of all time?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Avatar: The Way of Water",
+        "isCorrect": true
+      },
+      {
+        "id": "B",
+        "label": "Avengers: Endgame",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Titanic",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Avatar",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "How many films are in the original Star Wars trilogy?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "2",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "3",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "4",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "5",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "Which actress played Katniss Everdeen in The Hunger Games films?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Jennifer Lawrence",
+        "isCorrect": true
+      },
+      {
+        "id": "B",
+        "label": "Emma Watson",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Shailene Woodley",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Kristen Stewart",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "What is the name of the villain in The Dark Knight?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Scarecrow",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "The Joker",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Two-Face",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Bane",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "In which year did Avatar first release in theaters?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "2008",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "2009",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "2010",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "2011",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "Which director made the film 'Pulp Fiction'?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Martin Scorsese",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Quentin Tarantino",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Paul Thomas Anderson",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Oliver Stone",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "What is the primary language spoken in the film 'Parasite'?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Japanese",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Mandarin",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Korean",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "Vietnamese",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Animals",
+    "question": "What is the fastest land animal?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Lion",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Cheetah",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Pronghorn Antelope",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Greyhound",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Animals",
+    "question": "How many legs does an octopus have?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "6",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "8",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "10",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "12",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Animals",
+    "question": "Which animal is the largest mammal in the world?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "African Elephant",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Giraffe",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Blue Whale",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "Hippopotamus",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Animals",
+    "question": "How many chambers does a giraffe's heart have?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "3",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "4",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "5",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "6",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Animals",
+    "question": "What is the only mammal capable of true flight?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Flying Squirrel",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Flying Fish",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Bat",
+        "isCorrect": true
+      },
+      {
+        "id": "D",
+        "label": "Flying Lemur",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Animals",
+    "question": "Which animal can hold its breath the longest?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Dolphin",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Cuvier's Beaked Whale",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Elephant Seal",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Sea Turtle",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Animals",
+    "question": "How many species of penguins exist?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "15",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "18",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "21",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "24",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Animals",
+    "question": "What do pandas primarily eat?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Leaves",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Bamboo",
+        "isCorrect": true
+      },
+      {
+        "id": "C",
+        "label": "Fish",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Insects",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "category": "Animals",
+    "question": "Which is the only venomous mammal in North America?",
+    "platforms": [
+      {
+        "id": "A",
+        "label": "Badger",
+        "isCorrect": false
+      },
+      {
+        "id": "B",
+        "label": "Platypus",
+        "isCorrect": false
+      },
+      {
+        "id": "C",
+        "label": "Platypus",
+        "isCorrect": false
+      },
+      {
+        "id": "D",
+        "label": "Platypus",
+        "isCorrect": true
+      }
+    ]
+  }
+]
