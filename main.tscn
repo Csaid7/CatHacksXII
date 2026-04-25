@@ -9,6 +9,9 @@
 [node name="Main" type="Node"]
 script = ExtResource("1_4iqbb")
 
+[node name="Background" type="Sprite2D" parent="."]
+visible = false
+
 [node name="Player1" parent="." instance=ExtResource("1_w7e8r")]
 position = Vector2(419, 412)
 

@@ -13,6 +13,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var facing = 1
 func _ready():
 	punchHitBox.monitoring = false
+	add_to_group("players")
 
 func _physics_process(delta):
 	# Add the gravity.
