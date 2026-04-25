@@ -8,16 +8,35 @@ const JUMP_VELOCITY = -600.0
 @onready var state = STATES.IDLE
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-# Set to true by main.gd once the server tells us which player id is ours.
-# Only the local player reads keyboard input; remote players are driven by state_update.
-var is_local: bool = false
-
 # Tracks the last remote x position so we can detect movement for animations.
 var _prev_remote_x: float = 0.0
 
+# Stored so we can restore collision after hiding it for unassigned slots.
+var _orig_layer: int = 0
+var _orig_mask:  int = 0
+
+# Set to true by main.gd once the server tells us which player id is ours.
+# Uses a setter so the node reveals and re-enables collision the moment it's assigned.
+var is_local: bool = false:
+	set(value):
+		is_local = value
+		_show()
+
 
 func _ready():
+	_orig_layer = collision_layer
+	_orig_mask  = collision_mask
+	# Hide and disable collision until the server slots this node to a real player.
+	visible         = false
+	collision_layer = 0
+	collision_mask  = 0
 	NetworkManager.knockback_received.connect(_on_knockback)
+
+
+func _show():
+	visible         = true
+	collision_layer = _orig_layer
+	collision_mask  = _orig_mask
 
 
 func _physics_process(delta):
@@ -68,6 +87,8 @@ func _physics_process(delta):
 
 # Called by main.gd ~20x/sec to sync a remote player's position and animation.
 func apply_remote_state(rx: float, ry: float, rfacing: int):
+	if not visible:
+		_show()  # reveal and re-enable collision on first state update
 	var dx = abs(rx - _prev_remote_x)
 	_prev_remote_x = rx
 	position.x = rx
@@ -85,7 +106,7 @@ func apply_remote_state(rx: float, ry: float, rfacing: int):
 
 # Called by NetworkManager when the server says this player was hit.
 func _on_knockback(direction: int):
-	velocity = Vector2(direction * 750, -250)
+	velocity = Vector2(direction * 1500, -250)
 
 
 func _on_animated_sprite_2d_animation_finished():

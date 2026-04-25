@@ -198,7 +198,6 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="HostHUD" type="Panel" parent="CanvasLayer" unique_id=1937803769]
-modulate = Color(0.026088627, 0.05013594, 0.12445508, 1)
 custom_minimum_size = Vector2(300, 60)
 offset_right = 40.0
 offset_bottom = 40.0

@@ -134,7 +134,7 @@ class GameRoom:
                     {"players": self._players_list()},
                     room=self.room_code,
                 )
-                await asyncio.sleep(1 / 20)
+                await asyncio.sleep(1 / 60)
         except asyncio.CancelledError:
             pass
 
