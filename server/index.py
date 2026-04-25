@@ -29,7 +29,7 @@ app.add_middleware(CrossOriginIsolationMiddleware)
 socket_app = socketio.ASGIApp(sio, app)
 
 # Serve the exported Godot game as static files
-app.mount("/", StaticFiles(directory="static", html=True), name="game")
+app.mount("/", StaticFiles(directory="../godot/export", html=True), name="game")
 
 # rooms maps a 4-letter code to the GameRoom object managing that game
 # player_rooms lets us quickly look up which room any connected socket belongs to
