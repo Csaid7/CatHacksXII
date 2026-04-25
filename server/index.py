@@ -4,16 +4,31 @@ Run: uvicorn index:socket_app --host 0.0.0.0 --port 3000 --reload
 """
 
 import socketio
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.staticfiles import StaticFiles
 from game_room import GameRoom
+
+
+class CrossOriginIsolationMiddleware(BaseHTTPMiddleware):
+    """
+    Adds the two headers browsers require for SharedArrayBuffer / secure-context
+    features used by Godot's HTML5 export.  Works over plain HTTP on a LAN.
+    """
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        response.headers["Cross-Origin-Opener-Policy"]   = "same-origin"
+        response.headers["Cross-Origin-Embedder-Policy"] = "credentialless"
+        return response
+
 
 # Socket.io handles WebSocket connections; FastAPI is the HTTP wrapper around it
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins="*")
 app = FastAPI()
+app.add_middleware(CrossOriginIsolationMiddleware)
 socket_app = socketio.ASGIApp(sio, app)
 
-# Uncomment once you've exported the Godot project to godot/export/
+# Serve the exported Godot game as static files
 app.mount("/", StaticFiles(directory="../godot/export", html=True), name="game")
 
 # rooms maps a 4-letter code to the GameRoom object managing that game

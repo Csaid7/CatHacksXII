@@ -18,7 +18,8 @@ INJECTION = """
 \t\t<!-- AnswerRush: Socket.io bridge — must be injected after the Godot script -->
 \t\t<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 \t\t<script>
-\t\t\tvar socket = io("http://localhost:3000", { transports: ["websocket"] });
+\t\t\t// Connect back to whatever host served this page so it works on any network.
+\t\t\tvar socket = io(window.location.origin, { transports: ["websocket"] });
 \t\t\tsocket.on("connect", function () {
 \t\t\t\tconsole.log("[socket] connected, id =", socket.id);
 \t\t\t});

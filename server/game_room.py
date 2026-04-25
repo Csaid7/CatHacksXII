@@ -53,7 +53,7 @@ class GameRoom:
         }
         await self._broadcast_room_update(sid)
         # Fourth player joining fills the room — kick off the game automatically
-        if len(self.players) == 2:
+        if len(self.players) == 3:
             asyncio.create_task(self.start_game())
 
     async def player_left(self, sid: str):

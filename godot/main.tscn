@@ -26,7 +26,7 @@ position = Vector2(712, 185)
 position = Vector2(1020, 328)
 
 [node name="QuestionBox" parent="." unique_id=1956976659 instance=ExtResource("4_yci7j")]
-position = Vector2(434, 6)
+position = Vector2(436, 76)
 
 [node name="Timer" type="Timer" parent="." unique_id=1659016661]
 
