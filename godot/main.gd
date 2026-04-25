@@ -6,7 +6,7 @@ extends Node
 @onready var blockD       = $BlockD
 @onready var answerBlocks = [blockA, blockB, blockC, blockD]
 
-# State
+# States
 var my_id:               String     = ""
 var remote_players:      Dictionary = {}
 var local_player                    = null
