@@ -1,70 +1,70 @@
-[gd_scene load_steps=6 format=3 uid="uid://cctovidsgsq0y"]
+[gd_scene format=3 uid="uid://cctovidsgsq0y"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_4iqbb"]
+[ext_resource type="Script" uid="uid://b2ne14jxy8bfe" path="res://main.gd" id="1_4iqbb"]
 [ext_resource type="PackedScene" uid="uid://b1u6o8nqmnrsu" path="res://Player.tscn" id="1_w7e8r"]
 [ext_resource type="PackedScene" uid="uid://dv4uec4dllhyj" path="res://block.tscn" id="2_8qmk1"]
 [ext_resource type="PackedScene" uid="uid://dwahqj1sixf6n" path="res://AnswerBlock.tscn" id="2_cl2jp"]
 [ext_resource type="PackedScene" uid="uid://brdlpsng0ij85" path="res://Question.tscn" id="4_yci7j"]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=1761914304]
 script = ExtResource("1_4iqbb")
 
-[node name="Player1" parent="." instance=ExtResource("1_w7e8r")]
+[node name="Player1" parent="." unique_id=1131571846 instance=ExtResource("1_w7e8r")]
 position = Vector2(419, 412)
 
-[node name="BlockA" parent="." instance=ExtResource("2_cl2jp")]
+[node name="BlockA" parent="." unique_id=2084778086 instance=ExtResource("2_cl2jp")]
 position = Vector2(102, 460)
 
-[node name="BlockB" parent="." instance=ExtResource("2_cl2jp")]
+[node name="BlockB" parent="." unique_id=112821732 instance=ExtResource("2_cl2jp")]
 position = Vector2(380, 322)
 
-[node name="BlockC" parent="." instance=ExtResource("2_cl2jp")]
+[node name="BlockC" parent="." unique_id=81474935 instance=ExtResource("2_cl2jp")]
 position = Vector2(712, 185)
 
-[node name="BlockD" parent="." instance=ExtResource("2_cl2jp")]
+[node name="BlockD" parent="." unique_id=1051345136 instance=ExtResource("2_cl2jp")]
 position = Vector2(1020, 328)
 
-[node name="QuestionBox" parent="." instance=ExtResource("4_yci7j")]
+[node name="QuestionBox" parent="." unique_id=642369351 instance=ExtResource("4_yci7j")]
 position = Vector2(434, 6)
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=651894122]
 
-[node name="Block" parent="." instance=ExtResource("2_8qmk1")]
+[node name="Block" parent="." unique_id=330049964 instance=ExtResource("2_8qmk1")]
 position = Vector2(1057, 643)
 
-[node name="Block9" parent="." instance=ExtResource("2_8qmk1")]
+[node name="Block9" parent="." unique_id=336941687 instance=ExtResource("2_8qmk1")]
 position = Vector2(1081, 643)
 
-[node name="Block2" parent="." instance=ExtResource("2_8qmk1")]
+[node name="Block2" parent="." unique_id=1468103157 instance=ExtResource("2_8qmk1")]
 position = Vector2(907, 643)
 
-[node name="Block3" parent="." instance=ExtResource("2_8qmk1")]
+[node name="Block3" parent="." unique_id=1417630467 instance=ExtResource("2_8qmk1")]
 position = Vector2(755, 643)
 
-[node name="Block4" parent="." instance=ExtResource("2_8qmk1")]
+[node name="Block4" parent="." unique_id=1192298100 instance=ExtResource("2_8qmk1")]
 position = Vector2(611, 643)
 
-[node name="Block5" parent="." instance=ExtResource("2_8qmk1")]
+[node name="Block5" parent="." unique_id=1823656648 instance=ExtResource("2_8qmk1")]
 position = Vector2(475, 643)
 
-[node name="Block6" parent="." instance=ExtResource("2_8qmk1")]
+[node name="Block6" parent="." unique_id=2069331523 instance=ExtResource("2_8qmk1")]
 position = Vector2(323, 643)
 
-[node name="Block7" parent="." instance=ExtResource("2_8qmk1")]
+[node name="Block7" parent="." unique_id=1388824223 instance=ExtResource("2_8qmk1")]
 position = Vector2(187, 643)
 
-[node name="Block8" parent="." instance=ExtResource("2_8qmk1")]
+[node name="Block8" parent="." unique_id=216986109 instance=ExtResource("2_8qmk1")]
 position = Vector2(83, 643)
 
-[node name="Player2" parent="." instance=ExtResource("1_w7e8r")]
+[node name="Player2" parent="." unique_id=801141602 instance=ExtResource("1_w7e8r")]
 position = Vector2(491, 412)
 playerNum = 2
 
-[node name="Player3" parent="." instance=ExtResource("1_w7e8r")]
+[node name="Player3" parent="." unique_id=342314342 instance=ExtResource("1_w7e8r")]
 position = Vector2(567, 410)
 playerNum = 3
 
-[node name="Player4" parent="." instance=ExtResource("1_w7e8r")]
+[node name="Player4" parent="." unique_id=1754862826 instance=ExtResource("1_w7e8r")]
 position = Vector2(648, 404)
 playerNum = 4
 

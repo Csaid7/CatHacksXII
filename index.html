@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AnswerRush</title>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FONTS
+       Bebas Neue  → bold display title
+       JetBrains Mono → techy monospace for details
+  ════════════════════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS
+       All colors, glows, and sizes defined here so they're easy
+       to change in one place.
+    ════════════════════════════════════════════════════════════ */
+    :root {
+      --bg:        #07070f;       /* near-black base */
+      --surface:   #0e0e1e;       /* slightly lighter for containers */
+      --green:     #00ff94;       /* primary neon — "correct answer" energy */
+      --pink:      #ff2d6b;       /* secondary neon — "danger / fight" energy */
+      --yellow:    #ffe600;       /* accent — "question" energy */
+      --text:      #dde0f0;       /* readable off-white */
+      --muted:     #555577;       /* dimmed text */
+      --glow-green: 0 0 12px #00ff9488, 0 0 40px #00ff9433;
+      --glow-pink:  0 0 12px #ff2d6b88, 0 0 40px #ff2d6b33;
+      --border:    1px solid #ffffff12;
+    }
+
+    /* ── Reset ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* subtle diagonal grid lines in the background */
+      background-image:
+        linear-gradient(rgba(0,255,148,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,148,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      overflow-x: hidden;
+    }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    header {
+      width: 100%;
+      padding: 2rem 2rem 1rem;
+      text-align: center;
+      position: relative;
+    }
+
+    /* decorative top bar */
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--pink), var(--green), var(--yellow), var(--pink));
+      background-size: 300% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+
+    .title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      letter-spacing: 0.08em;
+      line-height: 1;
+      /* split color: first half green, second half pink using background-clip trick */
+      background: linear-gradient(135deg, var(--green) 40%, var(--pink) 60%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      /* glow around the text block */
+      filter: drop-shadow(0 0 18px #00ff9455) drop-shadow(0 0 40px #ff2d6b33);
+      animation: title-pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes title-pulse {
+      0%, 100% { filter: drop-shadow(0 0 18px #00ff9455) drop-shadow(0 0 40px #ff2d6b33); }
+      50%       { filter: drop-shadow(0 0 30px #00ff9488) drop-shadow(0 0 60px #ff2d6b55); }
+    }
+
+    .tagline {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      opacity: 0.85;
+    }
+
+    /* ── Status bar (shows connection state) ─────────────────── */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    /* the blinking dot next to the connection status */
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: background 0.4s, box-shadow 0.4s;
+    }
+
+    /* these classes are toggled by the JS below */
+    .status-dot.connected    { background: var(--green); box-shadow: var(--glow-green); animation: blink 2s infinite; }
+    .status-dot.disconnected { background: var(--pink);  box-shadow: var(--glow-pink); }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
+    /* ── Game canvas wrapper ─────────────────────────────────── */
+    .game-wrapper {
+      position: relative;
+      width: min(960px, 96vw);
+      aspect-ratio: 16 / 9;
+      margin: 1.5rem auto;
+      border: 1px solid #ffffff18;
+      border-radius: 4px;
+      overflow: hidden;
+      /* layered box shadow: inner glow + outer glow */
+      box-shadow:
+        inset 0 0 60px #00ff9408,
+        0 0 0 1px #00ff9422,
+        0 8px 60px #00000088;
+    }
+
+    /* animated corner brackets — pure CSS decorative detail */
+    .game-wrapper::before,
+    .game-wrapper::after {
+      content: '';
+      position: absolute;
+      width: 20px; height: 20px;
+      border-color: var(--green);
+      border-style: solid;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .game-wrapper::before { top: 6px; left: 6px;  border-width: 2px 0 0 2px; }
+    .game-wrapper::after  { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
+
+    /* CRT scanlines overlay — sits on top of the Godot canvas */
+    .scanlines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* ── Loading overlay — visible until Godot reports ready ─── */
+    #loading-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      z-index: 20;
+      transition: opacity 0.6s ease;
+    }
+
+    #loading-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loading-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: var(--green);
+      text-transform: uppercase;
+      animation: flicker 2s infinite;
+    }
+
+    @keyframes flicker {
+      0%, 95%, 100% { opacity: 1; }
+      96%            { opacity: 0.2; }
+      97%            { opacity: 1; }
+      98%            { opacity: 0.4; }
+    }
+
+    /* retro loading bar */
+    .loading-bar-track {
+      width: 240px;
+      height: 6px;
+      background: #ffffff0f;
+      border: 1px solid #ffffff18;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .loading-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--green);
+      box-shadow: var(--glow-green);
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    .loading-percent {
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+    }
+
+    /* the Godot canvas itself — fills the wrapper */
+    #canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    footer {
+      padding: 1.5rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    footer span { color: var(--green); }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HEADER — title + connection status indicator
+  ════════════════════════════════════════════════════════════ -->
+  <header>
+    <h1 class="title">AnswerRush</h1>
+    <p class="tagline">Race &nbsp;·&nbsp; Fight &nbsp;·&nbsp; Answer</p>
+
+    <div class="status-bar">
+      <!-- this dot changes color based on socket connection state (see JS below) -->
+      <div class="status-dot" id="status-dot"></div>
+      <span id="status-text">connecting...</span>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       GAME CANVAS WRAPPER
+       The Godot game renders into #canvas.
+       The scanlines div is a pure-CSS CRT effect on top.
+       The loading overlay hides until Godot finishes loading.
+  ════════════════════════════════════════════════════════════ -->
+  <div class="game-wrapper">
+
+    <!-- CRT scanline visual effect — purely decorative -->
+    <div class="scanlines"></div>
+
+    <!-- loading overlay — shown while Godot engine initializes -->
+    <div id="loading-overlay">
+      <p class="loading-label">Loading game...</p>
+      <div class="loading-bar-track">
+        <div class="loading-bar-fill" id="loading-bar"></div>
+      </div>
+      <p class="loading-percent" id="loading-percent">0%</p>
+    </div>
+
+    <!-- Godot renders here -->
+    <canvas id="canvas"></canvas>
+
+  </div>
+
+  <footer>
+    Built at <span>CatHacksXII</span> &nbsp;·&nbsp; AnswerRush &nbsp;·&nbsp; 2026
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SOCKET.IO — load the client library then connect
+       This MUST run before the Godot engine starts so that
+       window._socket exists when NetworkManager.gd calls
+       JavaScriptBridge.eval("window._socket")
+  ════════════════════════════════════════════════════════════ -->
+  <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+  <script>
+    // ── Server URL ───────────────────────────────────────────────
+    // window.SERVER_URL can be set externally before this script runs
+    // to point at the deployed Railway URL in production.
+    // Falls back to localhost:3000 for local development.
+    var SERVER_URL = window.SERVER_URL || 'http://localhost:3000';
+
+    // ── Create the Socket.io connection ──────────────────────────
+    // io() connects to the server and returns a socket object.
+    // We store it on window so Godot's NetworkManager.gd can access it via:
+    //   JavaScriptBridge.eval("window._socket")
+    window._socket = io(SERVER_URL, {
+      transports: ['websocket'],   // prefer raw WebSocket over long-polling
+      reconnectionAttempts: 5,     // try to reconnect 5 times before giving up
+    });
+
+    // ── Connection status UI ─────────────────────────────────────
+    // Update the dot and label in the header based on socket events.
+    var dot  = document.getElementById('status-dot');
+    var text = document.getElementById('status-text');
+
+    window._socket.on('connect', function () {
+      // socket is live — turn dot green and show the socket ID
+      dot.className  = 'status-dot connected';
+      text.textContent = 'connected · ' + window._socket.id;
+      console.log('[AnswerRush] Socket connected:', window._socket.id);
+    });
+
+    window._socket.on('disconnect', function (reason) {
+      // lost connection — turn dot pink
+      dot.className  = 'status-dot disconnected';
+      text.textContent = 'disconnected · ' + reason;
+      console.warn('[AnswerRush] Socket disconnected:', reason);
+    });
+
+    window._socket.on('connect_error', function (err) {
+      dot.className  = 'status-dot disconnected';
+      text.textContent = 'connection failed';
+      console.error('[AnswerRush] Connection error:', err.message);
+    });
+  </script>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       GODOT ENGINE SCRIPTS GO HERE
+       After exporting from Godot (Project → Export → Web),
+       copy the contents of the generated <script> tags from
+       Godot's index.html and paste them here.
+
+       Then update the engine initialization to:
+         1. Target  canvas: document.getElementById('canvas')
+         2. Call    hideLoadingOverlay() when the engine is ready
+
+       Example of how to hook into Godot's progress callback:
+         engine.startGame({
+           onProgress: updateLoadingBar,
+           canvas: document.getElementById('canvas'),
+         }).then(hideLoadingOverlay);
+  ════════════════════════════════════════════════════════════ -->
+
+  <script>
+    // ── Loading bar helpers ───────────────────────────────────────
+    // Call updateLoadingBar(current, total) from Godot's onProgress callback
+    // Call hideLoadingOverlay() when the game finishes loading
+
+    function updateLoadingBar(current, total) {
+      var pct = total > 0 ? Math.round((current / total) * 100) : 0;
+      document.getElementById('loading-bar').style.width = pct + '%';
+      document.getElementById('loading-percent').textContent = pct + '%';
+    }
+
+    function hideLoadingOverlay() {
+      document.getElementById('loading-overlay').classList.add('hidden');
+    }
+  </script>
+
+</body>
+</html>
