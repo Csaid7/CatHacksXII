@@ -26,11 +26,27 @@ var _restart_btn:  Button
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
+	# Draw the background image behind all game elements
+	var bg_layer = CanvasLayer.new()
+	bg_layer.layer = -10
+	add_child(bg_layer)
+	var bg = TextureRect.new()
+	bg.texture      = load("res://CatHacksBackgroundImg-01.png")
+	bg.stretch_mode = TextureRect.STRETCH_SCALE
+	bg.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg_layer.add_child(bg)
+
 	# Assign distinct colors to each answer platform
 	blockA.set_base_color(Color(1.0,  0.35, 0.35))  # red
 	blockB.set_base_color(Color(0.35, 0.6,  1.0))   # blue
 	blockC.set_base_color(Color(1.0,  0.85, 0.2))   # yellow
 	blockD.set_base_color(Color(0.35, 1.0,  0.45))  # green
+
+	# Make the question label readable over any background
+	questionText.add_theme_color_override("font_color", Color.WHITE)
+	questionText.add_theme_color_override("font_outline_color", Color.BLACK)
+	questionText.add_theme_constant_override("outline_size", 6)
 
 	_build_hud()
 
@@ -54,11 +70,18 @@ func _build_hud():
 	_timer_label.custom_minimum_size  = Vector2(100, 30)
 	_timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_timer_label.text = ""
+	_timer_label.add_theme_color_override("font_color", Color.WHITE)
+	_timer_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	_timer_label.add_theme_constant_override("outline_size", 6)
+	_timer_label.add_theme_font_size_override("font_size", 20)
 	_hud.add_child(_timer_label)
 
 	_score_label = Label.new()
 	_score_label.position = Vector2(12, 12)
 	_score_label.text     = ""
+	_score_label.add_theme_color_override("font_color", Color.WHITE)
+	_score_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	_score_label.add_theme_constant_override("outline_size", 5)
 	_hud.add_child(_score_label)
 
 	var controls_label = Label.new()
@@ -67,7 +90,9 @@ func _build_hud():
 	controls_label.custom_minimum_size  = Vector2(150, 0)
 	controls_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	controls_label.add_theme_font_size_override("font_size", 11)
-	controls_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
+	controls_label.add_theme_color_override("font_color", Color.WHITE)
+	controls_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	controls_label.add_theme_constant_override("outline_size", 4)
 	controls_label.text = "Move: Arrow Keys\nJump: Space\nPunch: X"
 	_hud.add_child(controls_label)
 
@@ -78,6 +103,8 @@ func _build_hud():
 	_result_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_result_label.text = ""
 	_result_label.add_theme_color_override("font_color", Color(1, 1, 0))
+	_result_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	_result_label.add_theme_constant_override("outline_size", 6)
 	_hud.add_child(_result_label)
 
 	_restart_btn = Button.new()
