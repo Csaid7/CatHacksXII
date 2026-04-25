@@ -1,0 +1,21 @@
+63f7b34db8d8cdea90c76aacccf841ec
+::res://::1777133110
+block.tscn::PackedScene::8694316355374141181::1777091275::0::1::::<><><>0<>0<><>::uid://c7ri3m5merh1t::::res://Screenshot 2026-04-15 153837.png
+export_presets.cfg::TextFile::-1::1777133110::0::1::::<><><>0<>0<><>::
+GameManager.gd::GDScript::1047712332305401588::1777131215::0::1::::<>Node<><>0<>0<><>::
+HUD.gd::GDScript::6628981607805205554::1777098390::0::1::::<>CanvasLayer<><>0<>0<><>::
+icon.svg::CompressedTexture2D::4648637993033283217::1777093454::1777093457::1::::<><><>0<>0<>bed346b678cb7edfaed8cd297a7bff73<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+index.apple-touch-icon.png::CompressedTexture2D::8707896676134906844::1777133109::1777100045::1::::<><><>0<>0<>f8a1792a299d835831ac4bc2858b6a91<>res://.godot/imported/index.apple-touch-icon.png-8085a11cc297d91deb55511843765958.ctex::
+index.icon.png::CompressedTexture2D::6970505398145128557::1777133109::1777100045::1::::<><><>0<>0<>7c54ebcf220d2720fc9f0b7f6fe8a6e3<>res://.godot/imported/index.icon.png-5665fad188e88d1e882500a4376bfe02.ctex::
+index.png::CompressedTexture2D::5516784255548103693::1777133109::1777100045::1::::<><><>0<>0<>1a2966983e03f549f4c4858650e29f60<>res://.godot/imported/index.png-5122033cac747157decad52589e2295c.ctex::
+Lobby.gd::GDScript::4118531936859421308::1777131012::0::1::::<>Control<><>0<>0<><>::
+Lobby.tscn::PackedScene::707536468432660613::1777104278::0::1::::<><><>0<>0<><>::uid://byxbvb48rqeo7::::res://Lobby.gd
+main.tscn::PackedScene::4953330197207932826::1777133099::0::1::::<><><>0<>0<><>::uid://o6rw0n70pm81::::res://GameManager.gd<>uid://b1u6o8nqmnrsu::::res://Player.tscn<>uid://dv4uec4dllhyj::::res://block.tscn
+NetworkManager.gd::GDScript::744301830567919221::1777129371::0::1::::<>Node<><>0<>0<><>::
+Player.gd::GDScript::4698983941895209994::1777098879::0::1::::<>CharacterBody2D<><>0<>0<><>::
+Player.tscn::PackedScene::4254527155350113700::1777091275::0::1::::<><><>0<>0<><>::res://Player.gd<>uid://b7h3nhgncwxyv::::res://icon.svg
+Screenshot 2026-04-15 153837.png::CompressedTexture2D::7054515200969305195::1777091275::1777091369::1::::<><><>0<>0<>fbdbaa6b69da851f58d85acb64a7fec0<>res://.godot/imported/Screenshot 2026-04-15 153837.png-56428cf43ab2b85b1e7e6ea7ec868893.ctex::
+::res://addons/::1777132512
+::res://addons/inject_socketio/::1777133099
+inject_socketio_export.gd::GDScript::8222036027884092939::1777133099::0::1::::<>EditorExportPlugin<><>0<>0<><>::
+plugin.cfg::TextFile::-1::1777132656::0::1::::<><><>0<>0<><>::

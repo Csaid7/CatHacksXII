@@ -1,0 +1,11 @@
+res://main.tscn
+res://NetworkManager.gd
+res://HUD.gd
+res://Player.gd
+res://Lobby.gd
+res://Lobby.tscn
+res://GameManager.gd
+res://inject_socketio_export.gd
+res://addons/inject_socketio/plugin.cfg
+res://addons/inject_socketio/inject_socketio_export.gd
+res://autoloads/socket_injector.gd

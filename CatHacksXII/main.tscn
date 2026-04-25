@@ -1,12 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://cctovidsgsq0y"]
+[gd_scene format=3 uid="uid://cctovidsgsq0y"]
 
+[ext_resource type="Script" uid="uid://o6rw0n70pm81" path="res://GameManager.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://b1u6o8nqmnrsu" path="res://Player.tscn" id="1_w7e8r"]
 [ext_resource type="PackedScene" uid="uid://dv4uec4dllhyj" path="res://block.tscn" id="2_8qmk1"]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=1781909873]
+script = ExtResource("1_h2yge")
 
-[node name="Node2D" parent="." instance=ExtResource("1_w7e8r")]
+[node name="Node2D" parent="." unique_id=1078908973 instance=ExtResource("1_w7e8r")]
+physics_interpolation_mode = 2
 position = Vector2(446, -132)
 
-[node name="Node2D2" parent="." instance=ExtResource("2_8qmk1")]
+[node name="Node2D2" parent="." unique_id=1790150417 instance=ExtResource("2_8qmk1")]
+physics_interpolation_mode = 2
 position = Vector2(608, 590)

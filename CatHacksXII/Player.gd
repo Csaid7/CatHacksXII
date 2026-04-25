@@ -6,6 +6,7 @@ const JUMP_VELOCITY = -400.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var facing: int = 1  # 1 = right, -1 = left
 
 
 func _physics_process(delta):
@@ -22,7 +23,10 @@ func _physics_process(delta):
 	var direction = Input.get_axis("ui_left", "ui_right")
 	if direction:
 		velocity.x = direction * SPEED
+		facing = 1 if direction > 0 else -1
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
+	
+	NetworkManager.send_position(global_position, velocity.y, facing)

@@ -30,14 +30,26 @@ async def connect(sid, environ):
 
 @sio.event
 async def disconnect(sid):
-    # Find and remove the player from whatever room they were in
+    print(f"[disconnect] fired for {sid}")
+    print(f"[disconnect] player_rooms currently: {player_rooms}")
+    print(f"[disconnect] rooms currently: {list(rooms.keys())}")
+    
     code = player_rooms.pop(sid, None)
+    print(f"[disconnect] {sid} was in room: {code}")
+    
     if code and code in rooms:
         room = rooms[code]
         await room.player_left(sid)
-        # Clean up the room object once the last player leaves
+        print(f"[disconnect] players remaining in {code}: {list(room.players.keys())}")
         if not room.players:
+            # Remove ALL player_rooms entries pointing to this dead room
+            dead_sids = [s for s, c in player_rooms.items() if c == code]
+            for dead_sid in dead_sids:
+                print(f"[disconnect] purging ghost entry {dead_sid} -> {code}")
+                player_rooms.pop(dead_sid, None)
             del rooms[code]
+            print(f"[room] {code} deleted — no players remaining")
+    
     print(f"[-] disconnected {sid}")
 
 
@@ -45,7 +57,6 @@ async def disconnect(sid):
 
 @sio.event
 async def join_room(sid, data):
-    # Normalize the code so "abc ", "ABC", and "abc" all hit the same room
     code = data.get("roomCode", "").strip().upper()
     name = data.get("playerName", "Anonymous").strip() or "Anonymous"
 
@@ -53,19 +64,30 @@ async def join_room(sid, data):
         await sio.emit("error", {"message": "Room code is required."}, to=sid)
         return
 
-    # Hard cap of 4 players per room
-    if code in rooms and len(rooms[code].players) >= 4:
-        await sio.emit("error", {"message": "Room is full."}, to=sid)
-        return
-
-    # Create the room on first join
     if code not in rooms:
         rooms[code] = GameRoom(sio, code)
 
-    # enter_room puts this socket into a Socket.io "room" so we can emit to everyone at once
+    room = rooms[code]
+
+    if len(room.players) >= 4:
+        await sio.emit("error", {"message": "Room is full."}, to=sid)
+        return
+
+    # Remove any stale player with the same name
+    stale_sid = next(
+        (s for s, p in room.players.items() if p["name"] == name),
+        None
+    )
+    if stale_sid and stale_sid != sid:
+        print(f"[join_room] evicting stale {name} ({stale_sid})")
+        player_rooms.pop(stale_sid, None)
+        await sio.disconnect(stale_sid)  # force-close the old socket
+        await room.player_left(stale_sid)
+
     await sio.enter_room(sid, code)
     player_rooms[sid] = code
     await rooms[code].add_player(sid, name)
+    print(f"[join_room] {name} joined {code}, now has {len(rooms[code].players)} players")
 
 
 # ── Real-time game events ──────────────────────────────────────────────────────

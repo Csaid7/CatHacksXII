@@ -53,19 +53,31 @@ class GameRoom:
             "number": number,
         }
         await self._broadcast_room_update(sid)
+
+        if len(self.players) == 1:
+            self._broadcast = asyncio.create_task(self._broadcast_loop())
+
+        if self._broadcast is None or self._broadcast.done():
+            self._broadcast = asyncio.create_task(self._broadcast_loop())
         # Fourth player joining fills the room — kick off the game automatically
-        if len(self.players) == 4:
+        if len(self.players) == 2:
             asyncio.create_task(self.start_game())
 
     async def player_left(self, sid: str):
+        if sid not in self.players:
+            print(f"[player_left] {sid} not in players, ignoring")
+            return
         self.players.pop(sid, None)
-        # Cancel background tasks — without this they'd loop forever on a shrinking player list
         if self._timer:
             self._timer.cancel()
+            self._timer = None
         if self._broadcast:
             self._broadcast.cancel()
-        # Let remaining players know someone disconnected
+            self._broadcast = None
+        self.round_active = False
         if self.players:
+            # Restart broadcast for remaining players
+            self._broadcast = asyncio.create_task(self._broadcast_loop())
             await self.sio.emit(
                 "player_left",
                 {"playerCount": len(self.players)},
