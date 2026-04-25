@@ -1,0 +1,609 @@
+```json
+[
+  {
+    "category": "Science",
+    "question": "What is the chemical symbol for gold?",
+    "platforms": [
+      {"id": "A", "label": "Go", "isCorrect": false},
+      {"id": "B", "label": "Gd", "isCorrect": false},
+      {"id": "C", "label": "Au", "isCorrect": true},
+      {"id": "D", "label": "Ag", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "How many bones are in the adult human body?",
+    "platforms": [
+      {"id": "A", "label": "186", "isCorrect": false},
+      {"id": "B", "label": "206", "isCorrect": true},
+      {"id": "C", "label": "226", "isCorrect": false},
+      {"id": "D", "label": "246", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "What is the speed of light in vacuum?",
+    "platforms": [
+      {"id": "A", "label": "299,792 km/s", "isCorrect": true},
+      {"id": "B", "label": "250,000 km/s", "isCorrect": false},
+      {"id": "C", "label": "350,000 km/s", "isCorrect": false},
+      {"id": "D", "label": "325,000 km/s", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "Which planet is closest to the Sun?",
+    "platforms": [
+      {"id": "A", "label": "Venus", "isCorrect": false},
+      {"id": "B", "label": "Mercury", "isCorrect": true},
+      {"id": "C", "label": "Earth", "isCorrect": false},
+      {"id": "D", "label": "Mars", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "What is the process by which plants convert sunlight into chemical energy?",
+    "platforms": [
+      {"id": "A", "label": "Respiration", "isCorrect": false},
+      {"id": "B", "label": "Fermentation", "isCorrect": false},
+      {"id": "C", "label": "Photosynthesis", "isCorrect": true},
+      {"id": "D", "label": "Transpiration", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "What is the most abundant element in the Earth's atmosphere?",
+    "platforms": [
+      {"id": "A", "label": "Oxygen", "isCorrect": false},
+      {"id": "B", "label": "Nitrogen", "isCorrect": true},
+      {"id": "C", "label": "Argon", "isCorrect": false},
+      {"id": "D", "label": "Carbon Dioxide", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "How many chambers does a human heart have?",
+    "platforms": [
+      {"id": "A", "label": "2", "isCorrect": false},
+      {"id": "B", "label": "3", "isCorrect": false},
+      {"id": "C", "label": "4", "isCorrect": true},
+      {"id": "D", "label": "6", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "What is the SI unit of electric current?",
+    "platforms": [
+      {"id": "A", "label": "Volt", "isCorrect": false},
+      {"id": "B", "label": "Ampere", "isCorrect": true},
+      {"id": "C", "label": "Watt", "isCorrect": false},
+      {"id": "D", "label": "Ohm", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "What is the atomic number of Carbon?",
+    "platforms": [
+      {"id": "A", "label": "4", "isCorrect": true},
+      {"id": "B", "label": "6", "isCorrect": false},
+      {"id": "C", "label": "8", "isCorrect": false},
+      {"id": "D", "label": "12", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Science",
+    "question": "What percentage of the Earth's surface is covered by water?",
+    "platforms": [
+      {"id": "A", "label": "61%", "isCorrect": false},
+      {"id": "B", "label": "71%", "isCorrect": true},
+      {"id": "C", "label": "81%", "isCorrect": false},
+      {"id": "D", "label": "51%", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "History",
+    "question": "In what year did World War II end?",
+    "platforms": [
+      {"id": "A", "label": "1943", "isCorrect": false},
+      {"id": "B", "label": "1944", "isCorrect": false},
+      {"id": "C", "label": "1945", "isCorrect": true},
+      {"id": "D", "label": "1946", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "History",
+    "question": "Who was the first President of the United States?",
+    "platforms": [
+      {"id": "A", "label": "Thomas Jefferson", "isCorrect": false},
+      {"id": "B", "label": "George Washington", "isCorrect": true},
+      {"id": "C", "label": "John Adams", "isCorrect": false},
+      {"id": "D", "label": "Benjamin Franklin", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "History",
+    "question": "In what year did the Berlin Wall fall?",
+    "platforms": [
+      {"id": "A", "label": "1987", "isCorrect": false},
+      {"id": "B", "label": "1988", "isCorrect": false},
+      {"id": "C", "label": "1989", "isCorrect": true},
+      {"id": "D", "label": "1991", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "History",
+    "question": "Which empire built Machu Picchu?",
+    "platforms": [
+      {"id": "A", "label": "Aztec", "isCorrect": false},
+      {"id": "B", "label": "Inca", "isCorrect": true},
+      {"id": "C", "label": "Maya", "isCorrect": false},
+      {"id": "D", "label": "Olmec", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "History",
+    "question": "In what century was the Magna Carta signed?",
+    "platforms": [
+      {"id": "A", "label": "12th century", "isCorrect": false},
+      {"id": "B", "label": "13th century", "isCorrect": true},
+      {"id": "C", "label": "14th century", "isCorrect": false},
+      {"id": "D", "label": "15th century", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "History",
+    "question": "Who painted the Mona Lisa?",
+    "platforms": [
+      {"id": "A", "label": "Michelangelo", "isCorrect": false},
+      {"id": "B", "label": "Raphael", "isCorrect": false},
+      {"id": "C", "label": "Leonardo da Vinci", "isCorrect": true},
+      {"id": "D", "label": "Donatello", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "History",
+    "question": "What year did the Titanic sink?",
+    "platforms": [
+      {"id": "A", "label": "1910", "isCorrect": false},
+      {"id": "B", "label": "1911", "isCorrect": false},
+      {"id": "C", "label": "1912", "isCorrect": true},
+      {"id": "D", "label": "1913", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "History",
+    "question": "Which ancient wonder of the world still stands today?",
+    "platforms": [
+      {"id": "A", "label": "Hanging Gardens of Babylon", "isCorrect": false},
+      {"id": "B", "label": "Colossus of Rhodes", "isCorrect": false},
+      {"id": "C", "label": "Great Pyramid of Giza", "isCorrect": true},
+      {"id": "D", "label": "Lighthouse of Alexandria", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "History",
+    "question": "In what year did the American Revolution begin?",
+    "platforms": [
+      {"id": "A", "label": "1773", "isCorrect": false},
+      {"id": "B", "label": "1775", "isCorrect": true},
+      {"id": "C", "label": "1776", "isCorrect": false},
+      {"id": "D", "label": "1777", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "What is the capital of France?",
+    "platforms": [
+      {"id": "A", "label": "Lyon", "isCorrect": false},
+      {"id": "B", "label": "Marseille", "isCorrect": false},
+      {"id": "C", "label": "Paris", "isCorrect": true},
+      {"id": "D", "label": "Nice", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "Which is the largest country in the world by area?",
+    "platforms": [
+      {"id": "A", "label": "Canada", "isCorrect": false},
+      {"id": "B", "label": "Russia", "isCorrect": true},
+      {"id": "C", "label": "China", "isCorrect": false},
+      {"id": "D", "label": "United States", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "What is the longest river in the world?",
+    "platforms": [
+      {"id": "A", "label": "Amazon River", "isCorrect": false},
+      {"id": "B", "label": "Nile River", "isCorrect": true},
+      {"id": "C", "label": "Yangtze River", "isCorrect": false},
+      {"id": "D", "label": "Mississippi River", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "How many continents are there?",
+    "platforms": [
+      {"id": "A", "label": "5", "isCorrect": false},
+      {"id": "B", "label": "6", "isCorrect": false},
+      {"id": "C", "label": "7", "isCorrect": true},
+      {"id": "D", "label": "8", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "What is the capital of Australia?",
+    "platforms": [
+      {"id": "A", "label": "Sydney", "isCorrect": false},
+      {"id": "B", "label": "Melbourne", "isCorrect": false},
+      {"id": "C", "label": "Canberra", "isCorrect": true},
+      {"id": "D", "label": "Brisbane", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "Which desert is the largest in the world?",
+    "platforms": [
+      {"id": "A", "label": "Sahara Desert", "isCorrect": false},
+      {"id": "B", "label": "Arabian Desert", "isCorrect": false},
+      {"id": "C", "label": "Antarctic Desert", "isCorrect": true},
+      {"id": "D", "label": "Gobi Desert", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "What is the smallest country in the world?",
+    "platforms": [
+      {"id": "A", "label": "Monaco", "isCorrect": false},
+      {"id": "B", "label": "San Marino", "isCorrect": false},
+      {"id": "C", "label": "Vatican City", "isCorrect": true},
+      {"id": "D", "label": "Liechtenstein", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "Which mountain range contains Mount Everest?",
+    "platforms": [
+      {"id": "A", "label": "Alps", "isCorrect": false},
+      {"id": "B", "label": "Himalayas", "isCorrect": true},
+      {"id": "C", "label": "Andes", "isCorrect": false},
+      {"id": "D", "label": "Rocky Mountains", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Geography",
+    "question": "What is the capital of Japan?",
+    "platforms": [
+      {"id": "A", "label": "Kyoto", "isCorrect": false},
+      {"id": "B", "label": "Osaka", "isCorrect": false},
+      {"id": "C", "label": "Tokyo", "isCorrect": true},
+      {"id": "D", "label": "Yokohama", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Who is the creator of the Marvel Cinematic Universe character Iron Man?",
+    "platforms": [
+      {"id": "A", "label": "Stan Lee", "isCorrect": true},
+      {"id": "B", "label": "Jack Kirby", "isCorrect": false},
+      {"id": "C", "label": "Steve Ditko", "isCorrect": false},
+      {"id": "D", "label": "Roy Thomas", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "What is the name of the main character in the Harry Potter series?",
+    "platforms": [
+      {"id": "A", "label": "Harry Styles", "isCorrect": false},
+      {"id": "B", "label": "Harry Potter", "isCorrect": true},
+      {"id": "C", "label": "Harry Houdini", "isCorrect": false},
+      {"id": "D", "label": "Harry Connick Jr.", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Which band released the album 'Abbey Road'?",
+    "platforms": [
+      {"id": "A", "label": "The Rolling Stones", "isCorrect": false},
+      {"id": "B", "label": "The Beatles", "isCorrect": true},
+      {"id": "C", "label": "Pink Floyd", "isCorrect": false},
+      {"id": "D", "label": "Led Zeppelin", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Who is the host of the talk show 'The Ellen DeGeneres Show'?",
+    "platforms": [
+      {"id": "A", "label": "Oprah Winfrey", "isCorrect": false},
+      {"id": "B", "label": "Ellen DeGeneres", "isCorrect": true},
+      {"id": "C", "label": "Jimmy Fallon", "isCorrect": false},
+      {"id": "D", "label": "Steven Colbert", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "What is the name of the streaming platform owned by Netflix?",
+    "platforms": [
+      {"id": "A", "label": "Disney+", "isCorrect": false},
+      {"id": "B", "label": "Netflix", "isCorrect": true},
+      {"id": "C", "label": "Amazon Prime", "isCorrect": false},
+      {"id": "D", "label": "Hulu", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Who is the creator of the TV series 'Game of Thrones'?",
+    "platforms": [
+      {"id": "A", "label": "J.R.R. Tolkien", "isCorrect": false},
+      {"id": "B", "label": "George R.R. Martin", "isCorrect": true},
+      {"id": "C", "label": "Stephen King", "isCorrect": false},
+      {"id": "D", "label": "Brandon Sanderson", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Which social media platform was founded by Mark Zuckerberg?",
+    "platforms": [
+      {"id": "A", "label": "Twitter", "isCorrect": false},
+      {"id": "B", "label": "Instagram", "isCorrect": false},
+      {"id": "C", "label": "Facebook", "isCorrect": true},
+      {"id": "D", "label": "TikTok", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Who won the Grammy Award for Album of the Year in 2023?",
+    "platforms": [
+      {"id": "A", "label": "Harry Styles", "isCorrect": false},
+      {"id": "B", "label": "Taylor Swift", "isCorrect": true},
+      {"id": "C", "label": "The Weeknd", "isCorrect": false},
+      {"id": "D", "label": "Adele", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Pop Culture",
+    "question": "What is the real name of the rapper Eminem?",
+    "platforms": [
+      {"id": "A", "label": "Marshall Bruce Mathers III", "isCorrect": true},
+      {"id": "B", "label": "Curtis Jackson", "isCorrect": false},
+      {"id": "C", "label": "Sean Combs", "isCorrect": false},
+      {"id": "D", "label": "Shawn Corey Carter", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "How many players are on a basketball team on the court?",
+    "platforms": [
+      {"id": "A", "label": "4", "isCorrect": false},
+      {"id": "B", "label": "5", "isCorrect": true},
+      {"id": "C", "label": "6", "isCorrect": false},
+      {"id": "D", "label": "7", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "In which sport is the term 'home run' used?",
+    "platforms": [
+      {"id": "A", "label": "Basketball", "isCorrect": false},
+      {"id": "B", "label": "American Football", "isCorrect": false},
+      {"id": "C", "label": "Baseball", "isCorrect": true},
+      {"id": "D", "label": "Soccer", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "How long is an Olympic swimming pool?",
+    "platforms": [
+      {"id": "A", "label": "25 meters", "isCorrect": false},
+      {"id": "B", "label": "50 meters", "isCorrect": true},
+      {"id": "C", "label": "75 meters", "isCorrect": false},
+      {"id": "D", "label": "100 meters", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "Which country has won the most FIFA World Cups?",
+    "platforms": [
+      {"id": "A", "label": "Germany", "isCorrect": false},
+      {"id": "B", "label": "Argentina", "isCorrect": false},
+      {"id": "C", "label": "France", "isCorrect": false},
+      {"id": "D", "label": "Brazil", "isCorrect": true}
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "How many innings are in a baseball game?",
+    "platforms": [
+      {"id": "A", "label": "7", "isCorrect": false},
+      {"id": "B", "label": "8", "isCorrect": false},
+      {"id": "C", "label": "9", "isCorrect": true},
+      {"id": "D", "label": "10", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "In which sport is the Stanley Cup awarded?",
+    "platforms": [
+      {"id": "A", "label": "Basketball", "isCorrect": false},
+      {"id": "B", "label": "Ice Hockey", "isCorrect": true},
+      {"id": "C", "label": "American Football", "isCorrect": false},
+      {"id": "D", "label": "Soccer", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "How many sets are typically played in a tennis match?",
+    "platforms": [
+      {"id": "A", "label": "2", "isCorrect": false},
+      {"id": "B", "label": "3", "isCorrect": true},
+      {"id": "C", "label": "4", "isCorrect": false},
+      {"id": "D", "label": "5", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "How many holes are on a standard golf course?",
+    "platforms": [
+      {"id": "A", "label": "9", "isCorrect": false},
+      {"id": "B", "label": "15", "isCorrect": false},
+      {"id": "C", "label": "18", "isCorrect": true},
+      {"id": "D", "label": "20", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Sports",
+    "question": "Who is the all-time leading scorer in NBA history?",
+    "platforms": [
+      {"id": "A", "label": "LeBron James", "isCorrect": true},
+      {"id": "B", "label": "Michael Jordan", "isCorrect": false},
+      {"id": "C", "label": "Kareem Abdul-Jabbar", "isCorrect": false},
+      {"id": "D", "label": "Kobe Bryant", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "What is the main ingredient in guacamole?",
+    "platforms": [
+      {"id": "A", "label": "Tomato", "isCorrect": false},
+      {"id": "B", "label": "Avocado", "isCorrect": true},
+      {"id": "C", "label": "Lime", "isCorrect": false},
+      {"id": "D", "label": "Cilantro", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "Which country is known for sushi?",
+    "platforms": [
+      {"id": "A", "label": "China", "isCorrect": false},
+      {"id": "B", "label": "Japan", "isCorrect": true},
+      {"id": "C", "label": "Thailand", "isCorrect": false},
+      {"id": "D", "label": "Vietnam", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "What type of meat is used in a traditional Italian carbonara?",
+    "platforms": [
+      {"id": "A", "label": "Beef", "isCorrect": false},
+      {"id": "B", "label": "Chicken", "isCorrect": false},
+      {"id": "C", "label": "Guanciale", "isCorrect": true},
+      {"id": "D", "label": "Pancetta", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "Which spice is the most expensive by weight?",
+    "platforms": [
+      {"id": "A", "label": "Vanilla", "isCorrect": false},
+      {"id": "B", "label": "Saffron", "isCorrect": true},
+      {"id": "C", "label": "Cardamom", "isCorrect": false},
+      {"id": "D", "label": "Nutmeg", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "What is the main ingredient in hummus?",
+    "platforms": [
+      {"id": "A", "label": "Lentils", "isCorrect": false},
+      {"id": "B", "label": "Chickpeas", "isCorrect": true},
+      {"id": "C", "label": "Black beans", "isCorrect": false},
+      {"id": "D", "label": "Fava beans", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "Which country is famous for its bratwurst sausages?",
+    "platforms": [
+      {"id": "A", "label": "Austria", "isCorrect": false},
+      {"id": "B", "label": "Germany", "isCorrect": true},
+      {"id": "C", "label": "France", "isCorrect": false},
+      {"id": "D", "label": "Poland", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "What is the national dish of India?",
+    "platforms": [
+      {"id": "A", "label": "Tandoori Chicken", "isCorrect": false},
+      {"id": "B", "label": "Butter Chicken", "isCorrect": false},
+      {"id": "C", "label": "Khichdi", "isCorrect": true},
+      {"id": "D", "label": "Biryani", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "What is the main ingredient in traditional falafel?",
+    "platforms": [
+      {"id": "A", "label": "Lentils", "isCorrect": false},
+      {"id": "B", "label": "Chickpeas or fava beans", "isCorrect": true},
+      {"id": "C", "label": "Black beans", "isCorrect": false},
+      {"id": "D", "label": "Peas", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Food",
+    "question": "What is the primary ingredient in traditional pesto?",
+    "platforms": [
+      {"id": "A", "label": "Parsley", "isCorrect": false},
+      {"id": "B", "label": "Basil", "isCorrect": true},
+      {"id": "C", "label": "Oregano", "isCorrect": false},
+      {"id": "D", "label": "Thyme", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "Who directed the movie 'Titanic'?",
+    "platforms": [
+      {"id": "A", "label": "Steven Spielberg", "isCorrect": false},
+      {"id": "B", "label": "James Cameron", "isCorrect": true},
+      {"id": "C", "label": "Christopher Nolan", "isCorrect": false},
+      {"id": "D", "label": "Martin Scorsese", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "Which movie won the Academy Award for Best Picture in 2022?",
+    "platforms": [
+      {"id": "A", "label": "Dune", "isCorrect": false},
+      {"id": "B", "label": "West Side Story", "isCorrect": false},
+      {"id": "C", "label": "CODA", "isCorrect": true},
+      {"id": "D", "label": "Don't Look Up", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "Who plays the main character in the 'Batman' trilogy directed by Christopher Nolan?",
+    "platforms": [
+      {"id": "A", "label": "Ben Affleck", "isCorrect": false},
+      {"id": "B", "label": "Val Kilmer", "isCorrect": false},
+      {"id": "C", "label": "Christian Bale", "isCorrect": true},
+      {"id": "D", "label": "George Clooney", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "In which year was the first 'Star Wars' movie released?",
+    "platforms": [
+      {"id": "A", "label": "1975", "isCorrect": false},
+      {"id": "B", "label": "1977", "isCorrect": true},
+      {"id": "C", "label": "1979", "isCorrect": false},
+      {"id": "D", "label": "1981", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "Who directed the movie 'Inception'?",
+    "platforms": [
+      {"id": "A", "label": "Steven Spielberg", "isCorrect": false},
+      {"id": "B", "label": "Christopher Nolan", "isCorrect": true},
+      {"id": "C", "label": "Denis Villeneuve", "isCorrect": false},
+      {"id": "D", "label": "Quentin Tarantino", "isCorrect": false}
+    ]
+  },
+  {
+    "category": "Movies",
+    "question": "Which movie features the character 'Forrest Gump'?",
+    "platforms": [
+      {"id": "A", "label": "Forrest Gump", "isCorrect": true},
+      {"id": "B", "label": "Cast Away", "isCorrect": false},
+      {"id": "C", "label": "The Green Mile", "is
