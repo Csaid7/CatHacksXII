@@ -71,9 +71,21 @@ def save_question_bank(questions: list, path: str = "questions.json"):
     print(f"Saved to {path}")
 
 
-def get_random_question(questions: list) -> dict:
-    q = random.choice(questions)
+_bank: list = []
+
+def _load_bank():
+    global _bank
+    if not _bank:
+        path = os.path.join(os.path.dirname(__file__), "questions.json")
+        with open(path) as f:
+            _bank = json.load(f)
+
+async def generate_question() -> dict:
+    _load_bank()
+    q = random.choice(_bank).copy()
+    q["platforms"] = q["platforms"].copy()
     random.shuffle(q["platforms"])
+    q["correct"] = next(p["id"] for p in q["platforms"] if p["isCorrect"])
     return q
 
 
