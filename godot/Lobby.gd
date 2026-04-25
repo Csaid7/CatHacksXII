@@ -33,7 +33,8 @@ func _ready():
 	bg_rect.visible = false
     _bg_image = TextureRect.new()
     _bg_image.texture = load("res://CatHacksBagroundImg-01.png")
-    _bg_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	_bg_image.stretch_mode = TextureRect.STRETCH_SCALE
+	_bg_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
     _bg_image.set_anchors_present(Control.PRESET_FULL_RECT)
 
     # Insert behind everything else
