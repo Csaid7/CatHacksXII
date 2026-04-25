@@ -1,1 +1,14 @@
+# Secrets
 .env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+server/debug.txt
+
+# Godot generated files
+.godot/
+
+# HTML5 export output (wherever you export to)
+export/

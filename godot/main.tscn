@@ -1,0 +1,212 @@
+[gd_scene format=3 uid="uid://cctovidsgsq0y"]
+
+[ext_resource type="Script" uid="uid://b2ne14jxy8bfe" path="res://main.gd" id="1_4iqbb"]
+[ext_resource type="PackedScene" uid="uid://b1u6o8nqmnrsu" path="res://Player.tscn" id="1_w7e8r"]
+[ext_resource type="PackedScene" uid="uid://dv4uec4dllhyj" path="res://block.tscn" id="2_8qmk1"]
+[ext_resource type="PackedScene" uid="uid://dwahqj1sixf6n" path="res://AnswerBlock.tscn" id="2_cl2jp"]
+[ext_resource type="PackedScene" uid="uid://brdlpsng0ij85" path="res://Question.tscn" id="4_yci7j"]
+[ext_resource type="Script" uid="uid://cse84k8i37ga4" path="res://Lobby.gd" id="6_7mycd"]
+
+[node name="Main" type="Node" unique_id=1022439889]
+script = ExtResource("1_4iqbb")
+
+[node name="Player1" parent="." unique_id=1721473431 instance=ExtResource("1_w7e8r")]
+z_index = 1
+position = Vector2(419, 412)
+playerNum = 0
+
+[node name="BlockA" parent="." unique_id=1875532104 instance=ExtResource("2_cl2jp")]
+position = Vector2(102, 460)
+
+[node name="BlockB" parent="." unique_id=2135357389 instance=ExtResource("2_cl2jp")]
+position = Vector2(380, 322)
+
+[node name="BlockC" parent="." unique_id=1343195784 instance=ExtResource("2_cl2jp")]
+position = Vector2(712, 185)
+
+[node name="BlockD" parent="." unique_id=1423201867 instance=ExtResource("2_cl2jp")]
+position = Vector2(1020, 328)
+
+[node name="QuestionBox" parent="." unique_id=1956976659 instance=ExtResource("4_yci7j")]
+position = Vector2(436, 76)
+
+[node name="Timer" type="Timer" parent="." unique_id=1659016661]
+
+[node name="Block" parent="." unique_id=1363862952 instance=ExtResource("2_8qmk1")]
+position = Vector2(1057, 643)
+
+[node name="Block9" parent="." unique_id=229142906 instance=ExtResource("2_8qmk1")]
+position = Vector2(1081, 643)
+
+[node name="Block2" parent="." unique_id=165911387 instance=ExtResource("2_8qmk1")]
+position = Vector2(907, 643)
+
+[node name="Block3" parent="." unique_id=1581494061 instance=ExtResource("2_8qmk1")]
+position = Vector2(755, 643)
+
+[node name="Block4" parent="." unique_id=218867248 instance=ExtResource("2_8qmk1")]
+position = Vector2(611, 643)
+
+[node name="Block5" parent="." unique_id=117106866 instance=ExtResource("2_8qmk1")]
+position = Vector2(475, 643)
+
+[node name="Block6" parent="." unique_id=1909202042 instance=ExtResource("2_8qmk1")]
+position = Vector2(323, 643)
+
+[node name="Block7" parent="." unique_id=727769095 instance=ExtResource("2_8qmk1")]
+position = Vector2(187, 643)
+
+[node name="Block8" parent="." unique_id=2053260328 instance=ExtResource("2_8qmk1")]
+position = Vector2(83, 643)
+
+[node name="Player2" parent="." unique_id=532398151 instance=ExtResource("1_w7e8r")]
+position = Vector2(491, 412)
+playerNum = 2
+
+[node name="Player3" parent="." unique_id=1254241859 instance=ExtResource("1_w7e8r")]
+position = Vector2(567, 410)
+playerNum = 3
+
+[node name="Player4" parent="." unique_id=848187717 instance=ExtResource("1_w7e8r")]
+position = Vector2(648, 404)
+playerNum = 4
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=439498133]
+script = ExtResource("6_7mycd")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=19851501]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101960786, 0.20784314, 0.26666668, 1)
+
+[node name="Panel" type="Panel" parent="CanvasLayer" unique_id=866345151]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="VBoxContainer" parent="CanvasLayer/Panel" unique_id=516213326]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -48.5
+offset_right = 48.5
+offset_bottom = 40.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel/Title" unique_id=1634696410]
+top_level = true
+layout_mode = 2
+text = "AnswerRush"
+horizontal_alignment = 1
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/Panel" unique_id=577644831]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -44.5
+offset_top = -91.0
+offset_right = 44.5
+offset_bottom = 91.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Name Label" type="Label" parent="CanvasLayer/Panel/VBox" unique_id=1019826548]
+layout_mode = 2
+text = "Your Name"
+horizontal_alignment = 1
+
+[node name="NameInput" type="LineEdit" parent="CanvasLayer/Panel/VBox" unique_id=773523479]
+layout_mode = 2
+placeholder_text = "Enter name..."
+alignment = 1
+
+[node name="ErrorLabel" type="Label" parent="CanvasLayer/Panel/VBox" unique_id=170180596]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+
+[node name="MainMenu" type="VBoxContainer" parent="CanvasLayer/Panel/VBox" unique_id=1963396508]
+layout_mode = 2
+
+[node name="HostButton" type="Button" parent="CanvasLayer/Panel/VBox/MainMenu" unique_id=1210747899]
+layout_mode = 2
+text = "Host Lobby"
+
+[node name="JoinButton" type="Button" parent="CanvasLayer/Panel/VBox/MainMenu" unique_id=209140531]
+layout_mode = 2
+text = "Join Lobby"
+
+[node name="HostMenu" type="VBoxContainer" parent="CanvasLayer/Panel/VBox" unique_id=1339087826]
+visible = false
+layout_mode = 2
+
+[node name="ShareLabel" type="Label" parent="CanvasLayer/Panel/VBox/HostMenu" unique_id=588768931]
+layout_mode = 2
+text = "Share this code:"
+
+[node name="GeneratedCode" type="Label" parent="CanvasLayer/Panel/VBox/HostMenu" unique_id=1769774938]
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="CanvasLayer/Panel/VBox/HostMenu" unique_id=451971595]
+layout_mode = 2
+text = "Start Hosting"
+
+[node name="BackButton" type="Button" parent="CanvasLayer/Panel/VBox/HostMenu" unique_id=2127394835]
+layout_mode = 2
+text = "Back"
+
+[node name="JoinMenu" type="VBoxContainer" parent="CanvasLayer/Panel/VBox" unique_id=809930002]
+visible = false
+layout_mode = 2
+
+[node name="EnterCode" type="Label" parent="CanvasLayer/Panel/VBox/JoinMenu" unique_id=538805488]
+layout_mode = 2
+text = "Enter Room Code:"
+
+[node name="CodeInput" type="LineEdit" parent="CanvasLayer/Panel/VBox/JoinMenu" unique_id=1645632201]
+layout_mode = 2
+placeholder_text = "ABCD"
+max_length = 4
+
+[node name="JoinButton" type="Button" parent="CanvasLayer/Panel/VBox/JoinMenu" unique_id=365676824]
+layout_mode = 2
+text = "Join"
+
+[node name="BackButton" type="Button" parent="CanvasLayer/Panel/VBox/JoinMenu" unique_id=1424079003]
+layout_mode = 2
+text = "Back"
+
+[node name="WaitingPanel" type="Panel" parent="CanvasLayer" unique_id=801514883]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/WaitingPanel" unique_id=95072174]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="HostHUD" type="Panel" parent="CanvasLayer" unique_id=1937803769]
+custom_minimum_size = Vector2(300, 60)
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="CanvasLayer/HostHUD" unique_id=835034842]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

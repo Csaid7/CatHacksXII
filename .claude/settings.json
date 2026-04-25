@@ -1,4 +1,10 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(../.venv/Scripts/uvicorn index:socket_app --port 3000)",
+      "Bash(../.venv/Scripts/python test_server.py)"
+    ]
+  },
   "enabledPlugins": {
     "frontend-design@claude-code-plugins": true,
     "claude-md-management@claude-plugins-official": true

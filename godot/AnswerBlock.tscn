@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwahqj1sixf6n"]
+
+[ext_resource type="PackedScene" uid="uid://dv4uec4dllhyj" path="res://block.tscn" id="1_18f4d"]
+[ext_resource type="Script" path="res://AnswerBlock.gd" id="1_pul57"]
+
+[node name="AnswerBlock" type="Node2D"]
+script = ExtResource("1_pul57")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -86.0
+offset_top = -47.0
+offset_right = 83.0
+offset_bottom = -17.0
+text = "7"
+horizontal_alignment = 1
+
+[node name="Block" parent="." instance=ExtResource("1_18f4d")]

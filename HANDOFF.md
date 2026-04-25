@@ -1,330 +1,173 @@
-# AnswerRush — Claude Project Handoff
-### CatHacksXII | 24-Hour Hackathon
+# AnswerRush — Session Handoff
+
+## What this is
+A 2D multiplayer quiz brawler built for CatHacksXII. Players jump between floating platforms labeled A/B/C/D to answer trivia questions, and can punch each other for knockback. Built in Godot 4.6 (exported to HTML5) + Python FastAPI + Socket.io.
+
+## How to run
+From the project root:
+```
+python inject.py
+```
+This injects the socket.io bridge into `godot/export/index.html` (if needed) then starts the uvicorn server on port 3000. For LAN/cross-machine play, use ngrok:
+```
+ngrok http 3000
+```
+Share the ngrok HTTPS URL — plain HTTP over LAN fails Godot's secure-context check.
+
+**After every Godot export:** re-run `python inject.py` to re-inject the socket.io bridge (exports overwrite index.html).
 
 ---
 
-## What We're Building
-
-A 2D multiplayer quiz brawler. 4 players each open the game in their own browser tab.
-A trivia question appears at the top. Four answer platforms (A / B / C / D) are scattered
-around the level. Players fight each other off platforms Stick Fight-style. After 15 seconds,
-anyone standing on the correct platform earns a point. First to the most points after 15 rounds wins.
-
-**The game runs entirely in the browser.** No app install. Players join by going to a URL
-and typing a 4-letter room code.
-
----
-
-## Tech Stack
-
-| Layer | Technology | Why |
-|---|---|---|
-| Game engine | Godot 4 → exported to HTML5 | 2D physics + browser delivery |
-| Game scripting | GDScript (Python-like syntax) | Ships with Godot |
-| Backend | Python + FastAPI + python-socketio | Real-time WebSocket server |
-| AI questions | Anthropic Python SDK → Claude Haiku | Fast + cheap question generation |
-| Deploy | Railway (free tier) | One-command Python deploy |
+## Project structure
+```
+CatHacksProject/
+├── inject.py                  # one-command startup (inject + server)
+├── server/
+│   ├── index.py               # FastAPI + socket.io entry point
+│   ├── game_room.py           # room state, round timer, scoring
+│   ├── question_gen.py        # pulls from questions.json
+│   └── questions.json         # pre-generated question bank (run question_gen.py to rebuild)
+└── godot/
+    ├── project.godot          # open THIS folder in Godot editor (not godot/CatHacksXII/)
+    ├── main.tscn              # main scene
+    ├── main.gd                # round flow, HUD, claim-point detection
+    ├── Player.tscn / Player.gd
+    ├── AnswerBlock.tscn / AnswerBlock.gd
+    ├── Lobby.gd               # host/join UI (attached to CanvasLayer in main.tscn)
+    ├── NetworkManager.gd      # autoload singleton — JS bridge + all socket signals
+    ├── block.tscn             # plain terrain block (170x34, StaticBody2D)
+    └── export/
+        └── index.html         # Godot HTML5 export (gets overwritten on each export)
+```
 
 ---
 
 ## Architecture
 
-```
-Browser (Player 1)                Browser (Player 2–4)
-  Godot HTML5 export                same game, same URL
-  GDScript game logic               each tab = one player
-  JavaScriptBridge ──────┐   ┌───── JavaScriptBridge
-                         ▼   ▼
-                  Python Server (FastAPI + python-socketio)
-                  ├── Lobby / room management
-                  ├── 15-second round timer (authoritative)
-                  ├── Position relay (~20×/sec)
-                  ├── Attack validation + knockback dispatch
-                  ├── Score tracking
-                  └── Claude API → question generation
-```
-
-**Key design decision:** The server is authoritative. Clients send inputs up;
-the server relays state back down. Nobody cheats by running their own physics.
-
-**Godot ↔ Socket.io bridge:** Godot exports to HTML5, so GDScript can call
-JavaScript directly via `JavaScriptBridge`. The Socket.io JS client runs in
-the HTML page; GDScript polls JS global variables every frame to read events.
-
----
-
-## Folder Structure
-
-```
-answerrush/
-├── HANDOFF.md                      ← you are here
-│
-├── server/
-│   ├── index.py                    ← FastAPI + Socket.io entry point  [Person 3]
-│   ├── game_room.py                ← Room state, timer, scoring       [Person 3]
-│   ├── question_gen.py             ← Claude API calls                 [Person 4]
-│   └── requirements.txt
-│
-└── godot/
-    ├── INPUT_MAP.md                ← Godot input action setup guide
-    ├── scripts/
-    │   ├── NetworkManager.gd       ← JS bridge + all socket events    [Person 2]
-    │   ├── Player.gd               ← Movement, jump, attack, stun     [Person 1]
-    │   ├── Platform.gd             ← Answer platform + occupancy      [Person 1]
-    │   └── GameManager.gd          ← Round flow, HUD, spawning        [Person 4]
-    └── export_template/
-        └── socket_inject.html      ← Paste into Godot's index.html   [Person 2]
-```
-
-**Godot scene structure (Person 1 builds this in the editor):**
-```
-Game.tscn (root)
-├── GameManager       ← GameManager.gd
-├── Platforms         ← Node2D container
-├── Players           ← Node2D container
-└── HUD (CanvasLayer)
-    ├── QuestionLabel
-    ├── TimerLabel
-    ├── RoundLabel
-    └── ScoreContainer
-
-Player.tscn
-├── CharacterBody2D   ← Player.gd
-├── CollisionShape2D
-├── Sprite2D
-└── Label             (name tag)
-
-Platform.tscn
-├── StaticBody2D      ← Platform.gd
-├── CollisionShape2D  (one-way enabled)
-├── Area2D + CollisionShape2D  (standing detection)
-└── Label             (answer text)
-```
-
----
-
-## The 4 Roles
-
-### Person 1 — Godot Gameplay
-**Files:** `godot/scripts/Player.gd`, `godot/scripts/Platform.gd`, all `.tscn` scenes
-
-Get one character walking, jumping, and punching locally before touching networking.
-Tune the physics feel. Build the Player and Platform scenes in the Godot editor.
-Never needs to think about servers or events — just make it fun.
-
-**Day 1 goal:** Single player walks, jumps, punches, gets knocked back, platforms exist with labels.
-
----
-
-### Person 2 — Godot Networking
-**Files:** `godot/scripts/NetworkManager.gd`, `godot/export_template/socket_inject.html`
-
-The hardest role technically. The entire first 2 hours is one goal: move in one
-browser tab, see it reflected in another. Add `NetworkManager.gd` as an Autoload
-(Project → Project Settings → Autoload, name it exactly `NetworkManager`).
-After Godot exports to HTML5, paste `socket_inject.html` contents into the
-generated `index.html` before `</body>`.
-
-**Day 1 goal:** Two browser tabs open. Move in one, see it in the other.
-
----
-
-### Person 3 — Python Backend
-**Files:** `server/index.py`, `server/game_room.py`
-
-Run the server, manage lobby rooms, relay positions, validate attacks server-side,
-run the round timer. Never needs to touch Godot.
-
-```bash
-cd server
-pip install -r requirements.txt
-export ANTHROPIC_API_KEY=sk-ant-...
-uvicorn index:socket_app --host 0.0.0.0 --port 3000 --reload
-```
-
-**Day 1 goal:** Two clients join the same room by code. Server runs full round loop.
-
----
-
-### Person 4 — AI & Game Flow
-**Files:** `server/question_gen.py`, `godot/scripts/GameManager.gd`
-
-On the server side: make Claude questions generate reliably with genuinely tricky wrong answers.
-On the Godot side: wire the round flow — question appears, platforms spawn with labels,
-scores update, game over screen shows. This is the integration role.
-
-**Day 1 goal:** `generate_question()` returns valid JSON. Labels appear on platforms in Godot.
-
----
-
-## Socket Event Contract
-
-**This table is law. Never rename an event or field without telling everyone.**
-
-| Event | Direction | Payload |
+### Server -> Client events
+| Server event | NetworkManager signal | Handler in |
 |---|---|---|
-| `join_room` | Client → Server | `{ roomCode, playerName }` |
-| `room_update` | Server → All | `{ players[], yourId, playerCount }` |
-| `game_starting` | Server → All | `{ countdown }` |
-| `round_start` | Server → All | `{ round, maxRounds, question, platforms[] }` |
-| `tick` | Server → All | `{ timeLeft }` — every second |
-| `player_move` | Client → Server | `{ x, y, vy, facing }` — ~20×/sec |
-| `state_update` | Server → All | `{ players: [{id, x, y, facing}] }` — ~20×/sec |
-| `player_attack` | Client → Server | `{ facing }` |
-| `apply_knockback` | Server → Target | `{ direction }` |
-| `claim_point` | Client → Server | `{}` — fired when local player is on correct platform at round end |
-| `round_result` | Server → All | `{ correctPlatformId, scores }` |
-| `game_over` | Server → All | `{ winner, finalScores }` |
+| `room_update` | `room_updated(players, your_id, player_count)` | Lobby.gd + main.gd |
+| `game_starting` | `game_starting(countdown)` | Lobby.gd + main.gd |
+| `round_start` | `round_started(round, max_rounds, question, platforms)` | main.gd |
+| `tick` | `tick(time_left)` | main.gd |
+| `state_update` | `state_updated(players)` | main.gd |
+| `apply_knockback` | `knockback_received(direction)` | Player.gd |
+| `round_result` | `round_result_received(correct_id, scores)` | main.gd |
+| `game_over` | `game_over_received(winner, final_scores)` | main.gd |
 
-**Platform data shape inside `round_start`:**
-```json
-{
-  "id": "A",
-  "label": "Paris",
-  "isCorrect": true,
-  "x": 150,
-  "y": -420
-}
-```
-
-**Player data shape inside `state_update`:**
-```json
-{ "id": "abc123", "x": 320.5, "y": 410.0, "facing": 1, "name": "Nate", "score": 3 }
-```
-
----
-
-## Physics Constants (Player.gd)
-
-Tune these, but agree as a team before changing — they affect how knockback
-is validated on the server.
-
-| Constant | Value | Notes |
+### Client -> Server events
+| GDScript call | Server event | Purpose |
 |---|---|---|
-| `GRAVITY` | `2000.0` | Double Godot default — feels punchy |
-| `JUMP_VELOCITY` | `-650.0` | Snappy, not floaty |
-| `SPEED` | `280.0` | Fast enough to feel urgent |
-| `KNOCKBACK` | `Vector2(750, -250)` | Sends them flying |
-| `STUN_DURATION` | `0.4` sec | Prevents counter-spam |
-| `ATTACK_X` | `90 px` | Must match server validation |
-| `ATTACK_Y` | `70 px` | Must match server validation |
+| `NetworkManager.join_room(code, name)` | `join_room` | enter lobby |
+| `NetworkManager.send_move(x, y, vy, facing)` | `player_move` | position sync every physics frame |
+| `NetworkManager.send_attack(facing)` | `player_attack` | hit detection |
+| `NetworkManager.claim_point()` | `claim_point` | score a point |
 
-Attack range values in `game_room.py` must match `ATTACK_X` / `ATTACK_Y` above.
+### How socket.io works in Godot HTML5
+NetworkManager.gd uses `JavaScriptBridge.eval()` to attach socket.io listeners that push events into `window._gdEvents`. `_process()` drains this queue every frame and fires GDScript signals. Only active when `OS.has_feature("web")` — silent in the editor.
 
 ---
 
-## Shared Contract — Things Nobody Changes Without Telling Everyone
+## Key files — current state
 
-1. **Socket event names** — exact strings, no renaming
-2. **Platform IDs** — always `"A"` `"B"` `"C"` `"D"` (uppercase, string)
-3. **Player position fields** — always `x`, `y`, `facing` (never renamed)
-4. **Autoload name** — `NetworkManager` (exact, capital N and M)
-5. **Attack range** — `ATTACK_X = 90`, `ATTACK_Y = 70` (server mirrors these)
-6. **`Game.tscn` is owned by Person 1** — everyone else edits only `.gd` scripts
-7. **Server port** — `3000` locally, Railway URL in production
+### server/index.py
+- FastAPI + python-socketio AsyncServer
+- `CrossOriginIsolationMiddleware` adds COOP/COEP headers (needed for Godot on non-localhost HTTP)
+- Mounts static files at `../godot/export`
+- Tracks `rooms: dict[str, GameRoom]` and `player_rooms: dict[str, str]`
 
----
+### server/game_room.py
+- `add_player`: starts game when 2 players join — **change `== 2` to `== 4` for demo**
+- `_broadcast_room_update`: sends `yourId` only to the new player, sends full player list to whole room
+- `_start_round`: fires `round_start` with question + shuffled platform positions
+- `_broadcast_loop`: sends `state_update` ~20x/sec
+- `award_point`: one point per player per round, only while round is active
+- `_players_list()`: returns `[{id, name, x, y, facing, score}]` — id is the socket sid
 
-## Critical Path
+### server/question_gen.py
+- `generate_question()` pulls a random question from `questions.json`
+- Each question: `{question, platforms: [{id, label, isCorrect}], correct}`
+- `isCorrect` field is what main.gd reads to know which platform to watch
+- Rebuild bank: `python question_gen.py` (needs `ANTHROPIC_API_KEY` env var)
 
-```
-Hour 0–2   SPIKE
-           Person 2: Godot ↔ Socket.io in two browser tabs
-           If this fails, nothing else matters — get help immediately
+### godot/NetworkManager.gd
+- Autoload registered as `NetworkManager` in project.godot
+- Signals: `room_updated`, `game_starting`, `round_started`, `tick`, `state_updated`, `knockback_received`, `round_result_received`, `game_over_received`
+- Outbound: `join_room()`, `send_move()`, `send_attack()`, `claim_point()`
 
-Hour 2–4   FOUNDATION
-           P1: Player walks + jumps locally
-           P3: Server accepts 4 players, echoes positions
-           P2: Remote player visible + moving in both tabs
+### godot/main.gd
+- `_on_room_updated`: maps players array (join order) to Player1-4 nodes by index, sets `is_local`, stores `local_player` reference
+- CRITICAL guard: `if your_id != "":` before setting `my_id` — server omits yourId on subsequent room updates
+- `_on_round_started`: sets `correct_platform_id` from `platform.get("isCorrect")`, resets `_claimed` flag
+- `_process`: every frame checks if local player is within 90px X / 80px Y of the correct block and is_on_floor() -> sends `claim_point()`, guarded by `_claimed` bool
+- HUD built programmatically in `_build_hud()`: timer top-right (red at <=5s), scores top-left, result message center
+- `_on_round_result`: flashes correct block green, wrong blocks red, updates score label
+- `_on_game_over`: shows winner + leaderboard in questionText
 
-Hour 4–8   CORE LOOP
-           P1: Platforms exist, player lands on them
-           P3: Timer runs, round_start + round_result fire
-           P4: Claude generates question, platforms get labels
-           P2: Platforms spawn from server data, question in HUD
+### godot/Player.gd
+- `is_local: bool` uses a property setter that calls `_show()` — visibility and collision restore instantly on assignment
+- `_ready()`: hides self, zeroes `collision_layer` and `collision_mask` — unassigned slots are fully inert (invisible + no hitbox)
+- All input hardcoded to slot "1" (left1/right1/jump1/attack1 = arrow keys, space, X) — every player uses same controls on their own screen
+- `apply_remote_state(x, y, facing)`: called by main.gd from state_update; plays run if dx>2 else idle; reveals self on first call
+- `_on_knockback(direction)`: `velocity = Vector2(direction * 1500, -250)`
 
-Hour 8–16  GAME FEEL
-           P1: Attack + knockback (iterate until fun)
-           P3: Attack validated server-side
-           P4: Polish sprites, sound, HTML wrapper
+### godot/Lobby.gd (attached to CanvasLayer in main.tscn)
+- Host: generates 4-letter code (no I/O), shows it, calls join_room, hides panel+bg_rect so game world shows behind
+- Join: validates 4-char code, calls join_room, shows WaitingPanel
+- CRITICAL guard: `if your_id != "":` before `get_parent().my_id = your_id` — without this, subsequent room_updates (without yourId) wipe my_id and break all player assignment
+- `_on_game_starting`: hides all UI including self
 
-Hour 16–24 SHIP IT
-           Full round end-to-end
-           Scores work, game over screen works
-           Deploy to Railway
-```
+### godot/AnswerBlock.gd
+- `set_answer(text)`: updates label
+- `flash_correct()`: green -> white tween over 2.5s
+- `flash_wrong()`: red -> white tween over 2.5s
+- `reset_highlight()`: snap to white (called at each round start)
 
-**Hard rules:**
-- No new features after hour 16
-- Person 2 spikes networking before anyone writes game features
-- Merge to main every 4 hours — never wait until the end
-
----
-
-## How to Run
-
-**Backend:**
-```bash
-cd server
-pip install -r requirements.txt
-export ANTHROPIC_API_KEY=sk-ant-...
-uvicorn index:socket_app --host 0.0.0.0 --port 3000 --reload
-```
-
-**Godot (dev):**
-- Open the `godot/` folder in Godot 4
-- Press F5 to run in the editor (no networking)
-- For networking: Export → HTML5 → open `http://localhost:3000` in browser
-
-**Godot HTML5 export:**
-1. Project → Export → Add Preset → Web
-2. Export Project → save to `godot/export/`
-3. Open `godot/export/index.html`, paste `socket_inject.html` before `</body>`
-4. Done — server serves these files at `/`
-
-**Test locally:**
-```
-Open http://localhost:3000 in 4 browser tabs
-Each tab = one player
-```
-
-**Deploy (Railway):**
-1. Push `server/` to GitHub
-2. New Railway project → Deploy from GitHub → select repo
-3. Set env var: `ANTHROPIC_API_KEY=sk-ant-...`
-4. Railway gives you a URL → update `SERVER_URL` in `socket_inject.html`
+### inject.py
+- Injects socket.io using `window.location.origin` (not hardcoded localhost — works on any network)
+- Then starts uvicorn with --reload
 
 ---
 
-## How to Use Claude on This Project
-
-When starting a Claude session, paste this whole file plus your role's starter
-`.gd` or `.py` files as context. Then say:
-
-> "I'm Person [X] — [role name]. My goal right now is [specific critical path item].
-> Help me build it. Don't change any socket event names or the shared contract items."
-
-If Claude suggests renaming a socket event, a platform ID, or any field in the
-contract table — override it and keep the agreed name.
-
----
-
-## Game Config (easy to tweak)
-
-```python
-# game_room.py
-MAX_ROUNDS  = 15
-ROUND_TIME  = 15   # seconds per round
-RESULT_WAIT = 3    # pause between rounds
+## Scene structure (main.tscn)
 ```
-
-```gdscript
-# Player.gd
-const SPEED         := 280.0
-const JUMP_VELOCITY := -650.0
-const GRAVITY       := 2000.0
+Main (Node) — main.gd
+  Player1 (CharacterBody2D) — Player.gd, playerNum=1
+  Player2 (CharacterBody2D) — Player.gd, playerNum=2
+  Player3 (CharacterBody2D) — Player.gd, playerNum=3
+  Player4 (CharacterBody2D) — Player.gd, playerNum=4
+  BlockA-D (Node2D) — AnswerBlock.gd, answer platforms
+  QuestionBox — Label child used as questionText
+  Timer
+  Block-Block9 — plain terrain floor blocks
+  CanvasLayer — Lobby.gd
+    ColorRect (full-screen dark bg)
+    Panel (lobby form: name input, host/join buttons)
+      VBox
+        NameInput
+        ErrorLabel
+        MainMenu (HostButton, JoinButton)
+        HostMenu (GeneratedCode label, StartButton, BackButton)
+        JoinMenu (CodeInput, JoinButton, BackButton)
+    WaitingPanel (full-screen, shown to joiners while waiting)
+      Label
+    HostHUD (small corner panel, shown to host while in-game waiting)
+      Label
 ```
 
 ---
 
-*AnswerRush — CatHacksXII*
+## Bugs fixed (important context)
+1. `my_id` overwritten with "" on subsequent room_updates — fixed by `if your_id != ""` guard in BOTH Lobby.gd AND main.gd (Lobby fires first as child node)
+2. All players used wrong input slot — fixed by hardcoding "1" in Player.gd (each player uses slot-1 controls on their own screen)
+3. Remote players sliding without animation — fixed by `apply_remote_state()` with dx-based run/idle logic
+4. Unassigned player nodes blocking movement — fixed by zeroing collision_layer/mask in _ready()
+5. Socket connecting to localhost on other machines — fixed with `window.location.origin`
+6. Godot secure-context error on LAN — COOP/COEP headers added; use ngrok for cross-machine
+
+## Things left to do
+- Change player count threshold from 2 back to 4 in game_room.py before demo
+- Polish: platform colors/labels in Godot editor (A=green, B=blue, C=orange, D=purple)
+- Consider adding a respawn/reset position when round ends so players don't stay on platforms
+- No reconnect handling — disconnecting mid-game leaves a frozen ghost
