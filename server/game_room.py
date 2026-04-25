@@ -4,20 +4,20 @@ import random
 # Fixed platform positions — must match the block positions in Godot's main.tscn
 PLATFORM_POSITIONS = {
     "A": {"x": 102,  "y": 460},
-    "B": {"x": 380,  "y": 322},
-    "C": {"x": 712,  "y": 185},
-    "D": {"x": 1020, "y": 328},
+    "B": {"x": 147,  "y": 174},
+    "C": {"x": 775,  "y": 143},
+    "D": {"x": 1021, "y": 394},
 }
 
 # One distinct color per player slot — sent to Godot and applied as a sprite tint
-PLAYER_COLORS = ["ff4444", "4488ff", "44dd44", "ffcc00"]
+PLAYER_COLORS = ["ff0000", "0000ff", "00ff00", "ffcc00"]
 
 # Starting positions matching the Player1-4 nodes in main.tscn.
 PLAYER_STARTS = [
-    {"x": 419, "y": 412},
-    {"x": 491, "y": 412},
-    {"x": 567, "y": 410},
-    {"x": 648, "y": 404},
+    {"x": 450, "y": 586},
+    {"x": 550, "y": 583},
+    {"x": 645, "y": 584},
+    {"x": 737, "y": 583},
 ]
 
 # Y coordinate below which a player is considered to have fallen off the map.
@@ -64,6 +64,10 @@ class GameRoom:
             "color":  PLAYER_COLORS[number - 1],  # unique color per slot
         }
         await self._broadcast_room_update(sid)
+        # Start position broadcast as soon as the first player joins so
+        # everyone can see each other move in the lobby before the game starts.
+        if self._broadcast is None or self._broadcast.done():
+            self._broadcast = asyncio.create_task(self._broadcast_loop())
 
     async def player_left(self, sid: str):
         self.players.pop(sid, None)
@@ -141,7 +145,9 @@ class GameRoom:
             "platforms": platforms,
         }, room=self.room_code)
 
-        self._broadcast   = asyncio.create_task(self._broadcast_loop())
+        # Reuse the lobby broadcast if it's already running; don't spawn a duplicate.
+        if self._broadcast is None or self._broadcast.done():
+            self._broadcast = asyncio.create_task(self._broadcast_loop())
         self._timer       = asyncio.create_task(self._run_timer())
         self.round_active = True
 
@@ -163,7 +169,7 @@ class GameRoom:
                     {"players": self._players_list()},
                     room=self.room_code,
                 )
-                await asyncio.sleep(1 / 20)
+                await asyncio.sleep(1 / 60)
         except asyncio.CancelledError:
             pass
 

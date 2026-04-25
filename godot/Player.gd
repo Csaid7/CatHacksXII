@@ -8,18 +8,17 @@ const JUMP_VELOCITY = -600.0
 @onready var state = STATES.IDLE
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-# Tracks the last remote x position so we can detect movement for animations.
+# Tracks the last remote x so we can detect movement for animations.
 var _prev_remote_x: float = 0.0
 
-# Stored so we can restore collision after hiding it for unassigned slots.
+# Stored so we can restore collision after hiding for unassigned slots.
 var _orig_layer: int = 0
 var _orig_mask:  int = 0
 
-# Scene-defined starting position — saved before we hide the node.
+# Scene-defined starting position saved before we hide the node.
 var _spawn_position: Vector2
 
 # Set to true by main.gd once the server tells us which player id is ours.
-# Uses a setter so the node reveals and re-enables collision the moment it's assigned.
 var is_local: bool = false:
 	set(value):
 		is_local = value
@@ -27,10 +26,9 @@ var is_local: bool = false:
 
 
 func _ready():
-	_spawn_position = position          # save editor position before anything moves
+	_spawn_position = position
 	_orig_layer = collision_layer
 	_orig_mask  = collision_mask
-	# Hide and disable collision until the server slots this node to a real player.
 	visible         = false
 	collision_layer = 0
 	collision_mask  = 0
@@ -44,43 +42,40 @@ func _show():
 	collision_mask  = _orig_mask
 
 
-# Teleport back to the scene starting position and zero velocity.
-# Called by main.gd at the start of each round.
+# Teleport back to scene starting position and zero velocity.
 func respawn():
 	position = _spawn_position
 	velocity  = Vector2.ZERO
 
 
+# Apply the server-assigned hex color as a sprite tint.
+func set_player_color(hex: String):
+	modulate = Color.html(hex)
+
+
 func _physics_process(delta):
-	# Remote players are positioned via apply_remote_state() — skip all input here.
+	# Remote players are positioned via apply_remote_state — skip input here.
 	if not is_local:
 		return
 
-	# Gravity
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
-	# Always use slot "1" controls — on your own screen you are always player 1.
-	# (playerNum drives which node you ARE in the scene, not which keys you press.)
-
-	# Attack
 	if Input.is_action_just_pressed("attack1"):
 		state = STATES.PUNCH
 		animation.play("punch")
-		var facing = -1 if $AnimatedSprite2D.flip_h else 1
+		var facing = -1 if animation.flip_h else 1
 		NetworkManager.send_attack(facing)
 
-	# Jump
 	if Input.is_action_just_pressed("jump1") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		state = STATES.JUMP
 		animation.play("jump")
 
-	# Horizontal movement
 	var direction = Input.get_axis("left1", "right1")
 	if direction:
 		velocity.x = direction * SPEED
-		$AnimatedSprite2D.flip_h = direction < 0
+		animation.flip_h = direction < 0
 		state = STATES.RUN
 		animation.play("run")
 	else:
@@ -92,21 +87,18 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-	# Send position to server every physics frame.
-	var facing = -1 if $AnimatedSprite2D.flip_h else 1
+	var facing = -1 if animation.flip_h else 1
 	NetworkManager.send_move(position.x, position.y, velocity.y, facing)
 
 
-# Called by main.gd ~20x/sec to sync a remote player's position and animation.
 func apply_remote_state(rx: float, ry: float, rfacing: int):
 	if not visible:
-		_show()  # reveal and re-enable collision on first state update
+		_show()
 	var dx = abs(rx - _prev_remote_x)
 	_prev_remote_x = rx
 	position.x = rx
 	position.y = ry
-	$AnimatedSprite2D.flip_h = rfacing < 0
-	# Only update animation if not mid-punch (let punch finish naturally).
+	animation.flip_h = rfacing < 0
 	if state != STATES.PUNCH:
 		if dx > 2.0:
 			state = STATES.RUN
@@ -116,11 +108,6 @@ func apply_remote_state(rx: float, ry: float, rfacing: int):
 			animation.play("idle")
 
 
-# Called by NetworkManager when the server says this player was hit.
 func _on_knockback(direction: int):
-	velocity = Vector2(direction * 1500, -100)
-
-
-func _on_animated_sprite_2d_animation_finished():
-	if state == STATES.JUMP or state == STATES.PUNCH:
-		state = STATES.IDLE
+	velocity.x = direction * 500
+	velocity.y = -300

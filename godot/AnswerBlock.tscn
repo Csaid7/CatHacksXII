@@ -11,7 +11,7 @@ offset_left = -86.0
 offset_top = -47.0
 offset_right = 83.0
 offset_bottom = -17.0
-text = "7"
+text = ""
 horizontal_alignment = 1
 
 [node name="Block" parent="." instance=ExtResource("1_18f4d")]

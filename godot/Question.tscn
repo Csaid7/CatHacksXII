@@ -5,4 +5,4 @@
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
-text = "How many continents are there?"
+text = ""

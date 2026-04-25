@@ -6,7 +6,7 @@ extends Node
 @onready var blockD       = $BlockD
 @onready var answerBlocks = [blockA, blockB, blockC, blockD]
 
-# ── State ──────────────────────────────────────────────────────────────────────
+# State
 var my_id:               String     = ""
 var remote_players:      Dictionary = {}
 var local_player                    = null
@@ -15,19 +15,25 @@ var round_active:        bool       = false
 var _claimed:            bool       = false
 var current_scores:      Dictionary = {}
 
-# ── HUD nodes ─────────────────────────────────────────────────────────────────
+# HUD nodes
 var _hud:          CanvasLayer
 var _timer_label:  Label
 var _score_label:  Label
-var _result_label: Label  # shown ABOVE the question box after each round
+var _result_label: Label
 var _restart_btn:  Button
 
 
 func _ready():
-	# keep this node processing input even when the tree is paused
-	# without this, pressing P to unpause would never be detected
 	process_mode = Node.PROCESS_MODE_ALWAYS
+
+	# Assign distinct colors to each answer platform
+	blockA.set_base_color(Color(1.0,  0.35, 0.35))  # red
+	blockB.set_base_color(Color(0.35, 0.6,  1.0))   # blue
+	blockC.set_base_color(Color(1.0,  0.85, 0.2))   # yellow
+	blockD.set_base_color(Color(0.35, 1.0,  0.45))  # green
+
 	_build_hud()
+
 	NetworkManager.room_updated.connect(_on_room_updated)
 	NetworkManager.game_starting.connect(_on_game_starting)
 	NetworkManager.round_started.connect(_on_round_started)
@@ -55,7 +61,6 @@ func _build_hud():
 	_score_label.text     = ""
 	_hud.add_child(_score_label)
 
-	# Controls — under the timer, top-right
 	var controls_label = Label.new()
 	controls_label.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	controls_label.position             = Vector2(-160, 44)
@@ -63,21 +68,18 @@ func _build_hud():
 	controls_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	controls_label.add_theme_font_size_override("font_size", 11)
 	controls_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
-	controls_label.text = "Move: ← / →\nJump: Space\nPunch: X"
+	controls_label.text = "Move: Arrow Keys\nJump: Space\nPunch: X"
 	_hud.add_child(controls_label)
 
-	# Result label — sits ABOVE the question box (y=0, very top of screen)
 	_result_label = Label.new()
 	_result_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	_result_label.position             = Vector2(0, 0)
 	_result_label.custom_minimum_size  = Vector2(0, 30)
 	_result_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_result_label.text = ""
-	# bright background so it stands out above the question
 	_result_label.add_theme_color_override("font_color", Color(1, 1, 0))
 	_hud.add_child(_result_label)
 
-	# Restart button — hidden until game over
 	_restart_btn = Button.new()
 	_restart_btn.set_anchors_preset(Control.PRESET_CENTER)
 	_restart_btn.position = Vector2(-80, 60)
@@ -87,70 +89,43 @@ func _build_hud():
 	_hud.add_child(_restart_btn)
 
 
-# ── Claim-point detection ──────────────────────────────────────────────────────
 func _process(_delta):
-	if not round_active or local_player == null or _claimed:
-		return
-	if not local_player.is_on_floor():
-		return
-
-	var block_map     = {"A": blockA, "B": blockB, "C": blockC, "D": blockD}
-	var correct_block = block_map.get(correct_platform_id)
-	if correct_block == null:
-		return
-
-	var px = local_player.position.x
-	var py = local_player.position.y
-	var bx = correct_block.position.x
-	var by = correct_block.position.y
-
-	if abs(px - bx) < 90 and abs(py - by) < 80:
-		_claimed = true
-		NetworkManager.claim_point()
+	pass
 
 
-# ── Room management ────────────────────────────────────────────────────────────
+# Map each player in the server list to a Player1-4 node in the scene.
 func _on_room_updated(players: Array, your_id: String, _player_count: int):
 	if your_id != "":
 		my_id = your_id
 
-	remote_players.clear()
-	local_player = null
-
 	for i in players.size():
 		var p     = players[i]
-		var pid   = p.get("id", "")
-		var pnode = get_node_or_null("Player" + str(i + 1))
-		if pnode == null:
+		var pid   = p.get("id",    "")
+		var color = p.get("color", "ffffff")
+		var node  = get_node_or_null("Player%d" % (i + 1))
+		if node == null:
 			continue
+		node.set_player_color(color)
 		if pid == my_id:
-			pnode.is_local = true
-			local_player   = pnode
+			if local_player == null:
+				local_player = node
+				node.is_local = true
 		else:
-			pnode.is_local = false
-			remote_players[pid] = pnode
-
-		var color_hex  = p.get("color", "ffffff")
-		pnode.modulate = Color("#" + color_hex)
+			node.is_local = false
+			if not remote_players.has(pid):
+				remote_players[pid] = node
 
 
-# ── Round flow ─────────────────────────────────────────────────────────────────
-func _on_game_starting(countdown: int):
-	questionText.set_text("Game starting in %d..." % countdown)
-	_result_label.text  = ""
-	_score_label.text   = ""
-	_restart_btn.visible = false
+func _on_game_starting(_countdown: int):
+	pass
 
 
 func _on_round_started(round: int, max_rounds: int, question: String, platforms: Array):
 	questionText.set_text("Round %d / %d\n%s" % [round, max_rounds, question])
-	correct_platform_id  = ""
-	round_active         = true
-	_claimed             = false
-	# clear the result label above the question at the start of each new round
-	_result_label.text   = ""
+	round_active        = true
+	_claimed            = false
+	_result_label.text  = ""
 
-	# Respawn local player at their scene-defined starting position
 	if local_player != null:
 		local_player.respawn()
 
@@ -158,88 +133,79 @@ func _on_round_started(round: int, max_rounds: int, question: String, platforms:
 		block.reset_highlight()
 
 	for platform in platforms:
-		var id         = platform.get("id", "")
-		var label      = platform.get("label", "")
-		var is_correct = platform.get("isCorrect", false)
+		var id    = platform.get("id",    "")
+		var label = platform.get("label", "")
 		match id:
 			"A": blockA.set_answer(label)
 			"B": blockB.set_answer(label)
 			"C": blockC.set_answer(label)
 			"D": blockD.set_answer(label)
-		if is_correct:
-			correct_platform_id = id
 
 
 func _on_tick(time_left: int):
-	_timer_label.text = ":%02d" % time_left
-	if time_left <= 5:
-		_timer_label.modulate = Color(1.0, 0.3, 0.3)
-	else:
-		_timer_label.modulate = Color(1.0, 1.0, 1.0)
+	_timer_label.text = "%d" % time_left
 
 
-# ── State sync ─────────────────────────────────────────────────────────────────
 func _on_state_updated(players: Array):
 	for p in players:
 		var pid = p.get("id", "")
 		if pid == my_id:
 			continue
-		if pid in remote_players:
-			var node = remote_players[pid]
+		var node = remote_players.get(pid)
+		if node:
 			node.apply_remote_state(
-				p.get("x",      node.position.x),
-				p.get("y",      node.position.y),
+				p.get("x",      0.0),
+				p.get("y",      0.0),
 				p.get("facing", 1)
 			)
 
 
-# ── End of round / game ────────────────────────────────────────────────────────
 func _on_round_result(correct_id: String, scores: Dictionary):
-	round_active   = false
-	current_scores = scores
+	round_active        = false
+	_claimed            = false
+	correct_platform_id = correct_id
 
-	var block_map = {"A": blockA, "B": blockB, "C": blockC, "D": blockD}
-	for id in block_map:
-		if id == correct_id:
-			block_map[id].flash_correct()
+	for block_id in ["A", "B", "C", "D"]:
+		var block = _block_by_id(block_id)
+		if block == null:
+			continue
+		if block_id == correct_id:
+			block.flash_correct()
 		else:
-			block_map[id].flash_wrong()
+			block.flash_wrong()
 
-	# Show who got it right ABOVE the question text
-	var scores_text = "  ".join(
-		scores.keys().map(func(name): return "%s %d" % [name, scores[name]])
-	)
-	_result_label.text = "✓ %s correct!   %s" % [correct_id, scores_text]
-
-	_update_score_label(scores)
+	var lines: Array = []
+	for pname in scores:
+		lines.append("%s: %d" % [pname, scores[pname]])
+	_score_label.text = "\n".join(lines)
+	current_scores    = scores
 
 
 func _on_game_over(winner: String, final_scores: Dictionary):
-	round_active      = false
-	_timer_label.text = ""
+	round_active       = false
+	_result_label.text = "Game Over!  Winner: %s" % winner
 
-	var lines = ["🏆  %s wins!\n" % winner]
-	for name in final_scores:
-		lines.append("%s  —  %d pts" % [name, final_scores[name]])
-	questionText.set_text("\n".join(lines))
-
-	_result_label.text   = ""
-	_restart_btn.visible = true   # show the Play Again button
-	_update_score_label(final_scores)
-
-
-# ── Restart ────────────────────────────────────────────────────────────────────
-func _on_restart_pressed():
-	# tell the server to restart the game in this room
-	NetworkManager.restart_game()
-	_restart_btn.visible = false
-	_result_label.text   = ""
-	_score_label.text    = ""
-
-
-# ── Helpers ────────────────────────────────────────────────────────────────────
-func _update_score_label(scores: Dictionary):
-	var lines = []
-	for name in scores:
-		lines.append("%s  %d" % [name, scores[name]])
+	var lines: Array = []
+	for pname in final_scores:
+		lines.append("%s: %d" % [pname, final_scores[pname]])
 	_score_label.text = "\n".join(lines)
+
+	_restart_btn.visible = true
+
+
+func _on_restart_pressed():
+	_restart_btn.visible = false
+	NetworkManager._emit_js("restart_game", {})
+
+
+func _on_timer_timeout():
+	pass
+
+
+func _block_by_id(id: String):
+	match id:
+		"A": return blockA
+		"B": return blockB
+		"C": return blockC
+		"D": return blockD
+	return null

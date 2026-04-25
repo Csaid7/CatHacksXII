@@ -84,7 +84,7 @@ func _on_start_host():
 	# Build the Start Game button as a sibling of the HostHUD panel,
 	# NOT inside it — avoids Panel clipping issues.
 	_start_game_btn              = Button.new()
-	_start_game_btn.text         = "▶  Start Game"
+	_start_game_btn.text         = "Start Game"
 	_start_game_btn.custom_minimum_size = Vector2(200, 40)
 	# Anchor to top-left, just below the HostHUD (which has min-size 300×60)
 	_start_game_btn.set_anchors_preset(Control.PRESET_TOP_LEFT)
