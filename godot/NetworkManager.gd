@@ -123,6 +123,9 @@ func send_attack(facing: int) -> void:
 func claim_point() -> void:
 	_emit_js("claim_point", {})
 
+func restart_game() -> void:
+	_emit_js("restart_game", {})
+
 
 func _emit_js(event: String, data: Dictionary) -> void:
 	if not _js_available:

@@ -1,14 +1,17 @@
 import asyncio
 import random
-from question_gen import generate_question
 
-# Server-side platform positions — all clients get the same layout so nobody desyncs
-PLATFORM_POSITIONS = [
-    {"x": 150, "y": -420},
-    {"x": 450, "y": -420},
-    {"x": 250, "y": -230},
-    {"x": 550, "y": -230},
-]
+# Fixed platform positions — must match the block positions in Godot's main.tscn
+# BlockA, B, C, D are placed at these exact coordinates in the scene
+PLATFORM_POSITIONS = {
+    "A": {"x": 102,  "y": 460},
+    "B": {"x": 380,  "y": 322},
+    "C": {"x": 712,  "y": 185},
+    "D": {"x": 1020, "y": 328},
+}
+
+# One distinct color per player slot — sent to Godot and applied as a sprite tint
+PLAYER_COLORS = ["ff4444", "4488ff", "44dd44", "ffcc00"]
 
 # Spread players out on spawn so they don't stack on top of each other
 PLAYER_STARTS = [
@@ -33,8 +36,10 @@ class GameRoom:
         self.current_q    = None
         self._timer       = None   # asyncio Task for the countdown
         self._broadcast   = None   # asyncio Task for the position stream
-        self.round_active = False
-        self._scored      = set()  # sids that already claimed a point this round
+        self.round_active    = False
+        self._scored         = set()   # sids that already claimed a point this round
+        self._question_pool  = []      # shuffled pool — questions are popped in order so no repeats
+        self._correct_pos    = None    # position of the correct platform this round {x, y}
 
     # ------------------------------------------------------------------
     # Lobby
@@ -50,6 +55,7 @@ class GameRoom:
             "facing": 1,
             "score":  0,
             "number": number,
+            "color":  PLAYER_COLORS[number - 1],  # unique color per slot
         }
         await self._broadcast_room_update(sid)
         # Fourth player joining fills the room — kick off the game automatically
@@ -85,11 +91,25 @@ class GameRoom:
     # Game flow
     # ------------------------------------------------------------------
 
+    def _next_question(self) -> dict:
+        # refill and re-shuffle the pool when empty so the game never runs out
+        if not self._question_pool:
+            import question_gen
+            question_gen._load_bank()           # fills question_gen._bank in place
+            self._question_pool = question_gen._bank.copy()  # copy AFTER loading
+            random.shuffle(self._question_pool)
+            print(f"[Pool] Loaded {len(self._question_pool)} questions. First: {self._question_pool[-1]['question'][:40]}")
+        q = self._question_pool.pop().copy()
+        q["platforms"] = list(q["platforms"])
+        random.shuffle(q["platforms"])
+        q["correct"] = next(p["id"] for p in q["platforms"] if p["isCorrect"])
+        return q
+
     async def start_game(self):
         countdown = 3
         await self.sio.emit("game_starting", {"countdown": countdown}, room=self.room_code)
         await asyncio.sleep(countdown)
-        self.current_q = generate_question()
+        self.current_q = self._next_question()
         await self._start_round()
 
     async def _start_round(self):
@@ -97,12 +117,15 @@ class GameRoom:
         self.time_left   = ROUND_TIME
         self._scored     = set()  # reset so everyone can score once in this round
 
-        # Shuffle positions each round so the correct answer isn't always in the same corner
-        positions = random.sample(PLATFORM_POSITIONS, len(PLATFORM_POSITIONS))
+        # Merge each platform with its fixed Godot scene position by ID
         platforms = [
-            {**platform, **pos}
-            for platform, pos in zip(self.current_q["platforms"], positions)
+            {**platform, **PLATFORM_POSITIONS[platform["id"]]}
+            for platform in self.current_q["platforms"]
         ]
+
+        # Store correct platform position for end-of-round check
+        correct_id = self.current_q["correct"]
+        self._correct_pos = PLATFORM_POSITIONS.get(correct_id)
 
         await self.sio.emit("round_start", {
             "round":     self.round_num,
@@ -143,6 +166,20 @@ class GameRoom:
         self.round_active = False
 
         correct_id = self.current_q["correct"]
+
+        # Award points to every player standing on the correct platform at timer end
+        if self._correct_pos:
+            cx = self._correct_pos["x"]
+            cy = self._correct_pos["y"]
+            print(f"[Round end] Correct platform pos: x={cx} y={cy}")
+            for sid, player in self.players.items():
+                dx = abs(player["x"] - cx)
+                dy = abs(player["y"] - cy)
+                print(f"  Player {player['name']}: x={player['x']:.0f} y={player['y']:.0f} | dx={dx:.0f} dy={dy:.0f}")
+                if dx < 85 and dy < 80:
+                    player["score"] += 1
+                    print(f"  → POINT awarded to {player['name']}")
+
         await self.sio.emit("round_result", {
             "correctPlatformId": correct_id,
             "scores": {p["name"]: p["score"] for p in self.players.values()},
@@ -153,8 +190,16 @@ class GameRoom:
         if self.round_num >= MAX_ROUNDS:
             await self._end_game()
         else:
-            self.current_q = generate_question()
+            self.current_q = self._next_question()
             await self._start_round()
+
+    async def restart(self):
+        # reset scores and start a fresh game in the same room with the same players
+        for player in self.players.values():
+            player["score"] = 0
+        self.round_num       = 0
+        self._question_pool  = []   # clear pool so it reshuffles
+        asyncio.create_task(self.start_game())
 
     async def _end_game(self):
         # Highest score wins; if tied, the player who appears first in the dict wins
@@ -193,15 +238,9 @@ class GameRoom:
                 await self.sio.emit("apply_knockback", {"direction": facing}, to=target_sid)
 
     async def award_point(self, sid: str):
-        # Guard 1: only accept claims while a round is actually running
-        # Guard 2: one point per player per round — prevents spam-clicking claim_point
-        if not self.round_active or sid in self._scored:
-            return
-        player = self.players.get(sid)
-        if not player:
-            return
-        player["score"] += 1
-        self._scored.add(sid)
+        # Points are now awarded server-side at round end based on position
+        # claim_point from clients is ignored — kept for API compatibility
+        pass
 
     # ------------------------------------------------------------------
     # Helpers
@@ -217,6 +256,7 @@ class GameRoom:
                 "y":      p["y"],
                 "facing": p["facing"],
                 "score":  p["score"],
+                "color":  p["color"],
             }
             for sid, p in self.players.items()
         ]

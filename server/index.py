@@ -104,8 +104,14 @@ async def player_attack(sid, data):
 
 @sio.event
 async def claim_point(sid, _):
-    # Client fires this when it thinks the local player is on the correct platform at round end
-    # award_point validates the claim (round active, not already scored this round)
     code = player_rooms.get(sid)
     if code and code in rooms:
         await rooms[code].award_point(sid)
+
+
+@sio.event
+async def restart_game(sid, _):
+    # any player in the room can trigger a restart after game over
+    code = player_rooms.get(sid)
+    if code and code in rooms:
+        await rooms[code].restart()
