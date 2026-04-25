@@ -119,9 +119,9 @@ func send_move(x: float, y: float, vy: float, facing: int) -> void:
 func send_attack(facing: int) -> void:
 	_emit_js("player_attack", {"facing": facing})
 
-# Fire when the local player is standing on what they think is the correct platform
-func claim_point() -> void:
-	_emit_js("claim_point", {})
+# Host calls this to start the game whenever they're ready
+func request_start_game() -> void:
+	_emit_js("start_game", {})
 
 
 func _emit_js(event: String, data: Dictionary) -> void:

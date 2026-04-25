@@ -11,7 +11,9 @@
 script = ExtResource("1_4iqbb")
 
 [node name="Player1" parent="." unique_id=1721473431 instance=ExtResource("1_w7e8r")]
+z_index = 1
 position = Vector2(419, 412)
+playerNum = 0
 
 [node name="BlockA" parent="." unique_id=1875532104 instance=ExtResource("2_cl2jp")]
 position = Vector2(102, 460)

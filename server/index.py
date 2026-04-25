@@ -3,6 +3,7 @@ AnswerRush — Python backend
 Run: uvicorn index:socket_app --host 0.0.0.0 --port 3000 --reload
 """
 
+import asyncio
 import socketio
 from fastapi import FastAPI, Request
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -82,6 +83,27 @@ async def join_room(sid, data):
     await sio.enter_room(sid, code)
     player_rooms[sid] = code
     await rooms[code].add_player(sid, name)
+
+
+# ── Lobby control ─────────────────────────────────────────────────────────────
+
+@sio.event
+async def start_game(sid, data=None):
+    print(f"[start_game] received from {sid}")
+    code = player_rooms.get(sid)
+    if not code or code not in rooms:
+        print(f"[start_game] room not found for {sid}")
+        return
+    room = rooms[code]
+    if sid != room.host_sid:
+        print(f"[start_game] rejected — {sid} is not host ({room.host_sid})")
+        await sio.emit("error", {"message": "Only the host can start the game."}, to=sid)
+        return
+    if room.round_active or room.round_num > 0:
+        print(f"[start_game] rejected — game already running")
+        return
+    print(f"[start_game] starting game in room {code}")
+    asyncio.create_task(room.start_game())
 
 
 # ── Real-time game events ──────────────────────────────────────────────────────
