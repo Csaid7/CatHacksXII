@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=3 uid="uid://cctovidsgsq0y"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_4iqbb"]
+[ext_resource type="PackedScene" uid="uid://b1u6o8nqmnrsu" path="res://Player.tscn" id="1_w7e8r"]
+[ext_resource type="PackedScene" uid="uid://dv4uec4dllhyj" path="res://block.tscn" id="2_8qmk1"]
+[ext_resource type="PackedScene" uid="uid://dwahqj1sixf6n" path="res://AnswerBlock.tscn" id="2_cl2jp"]
+[ext_resource type="PackedScene" uid="uid://brdlpsng0ij85" path="res://Question.tscn" id="4_yci7j"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_4iqbb")
+
+[node name="Player1" parent="." instance=ExtResource("1_w7e8r")]
+position = Vector2(419, 412)
+
+[node name="BlockA" parent="." instance=ExtResource("2_cl2jp")]
+position = Vector2(102, 460)
+
+[node name="BlockB" parent="." instance=ExtResource("2_cl2jp")]
+position = Vector2(380, 322)
+
+[node name="BlockC" parent="." instance=ExtResource("2_cl2jp")]
+position = Vector2(712, 185)
+
+[node name="BlockD" parent="." instance=ExtResource("2_cl2jp")]
+position = Vector2(1020, 328)
+
+[node name="QuestionBox" parent="." instance=ExtResource("4_yci7j")]
+position = Vector2(434, 6)
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Block" parent="." instance=ExtResource("2_8qmk1")]
+position = Vector2(1057, 643)
+
+[node name="Block9" parent="." instance=ExtResource("2_8qmk1")]
+position = Vector2(1081, 643)
+
+[node name="Block2" parent="." instance=ExtResource("2_8qmk1")]
+position = Vector2(907, 643)
+
+[node name="Block3" parent="." instance=ExtResource("2_8qmk1")]
+position = Vector2(755, 643)
+
+[node name="Block4" parent="." instance=ExtResource("2_8qmk1")]
+position = Vector2(611, 643)
+
+[node name="Block5" parent="." instance=ExtResource("2_8qmk1")]
+position = Vector2(475, 643)
+
+[node name="Block6" parent="." instance=ExtResource("2_8qmk1")]
+position = Vector2(323, 643)
+
+[node name="Block7" parent="." instance=ExtResource("2_8qmk1")]
+position = Vector2(187, 643)
+
+[node name="Block8" parent="." instance=ExtResource("2_8qmk1")]
+position = Vector2(83, 643)
+
+[node name="Player2" parent="." instance=ExtResource("1_w7e8r")]
+position = Vector2(491, 412)
+playerNum = 2
+
+[node name="Player3" parent="." instance=ExtResource("1_w7e8r")]
+position = Vector2(567, 410)
+playerNum = 3
+
+[node name="Player4" parent="." instance=ExtResource("1_w7e8r")]
+position = Vector2(648, 404)
+playerNum = 4
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
