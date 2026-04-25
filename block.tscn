@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dv4uec4dllhyj"]
+
+[ext_resource type="Texture2D" uid="uid://bpi2fccj3fmxy" path="res://sandBlock.png" id="1_rrdyp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8pcje"]
+size = Vector2(170, 34)
+
+[node name="Block" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-2, 0)
+shape = SubResource("RectangleShape2D_8pcje")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1.5, -1.90735e-06)
+scale = Vector2(0.422222, 0.272)
+texture = ExtResource("1_rrdyp")
