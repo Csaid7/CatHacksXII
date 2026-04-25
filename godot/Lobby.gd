@@ -29,6 +29,17 @@ func _ready():
 	join_panel.visible    = false
 	host_hud.visible      = false
 
+	# Import background image.
+	bg_rect.visible = false
+    _bg_image = TextureRect.new()
+    _bg_image.texture = load("res://CatHacksBagroundImg-01.png")
+    _bg_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+    _bg_image.set_anchors_present(Control.PRESET_FULL_RECT)
+
+    # Insert behind everything else
+    add_child(_bg_image)
+    move_child(_bg_image, 0)
+
 	NetworkManager.room_updated.connect(_on_room_updated)
 	NetworkManager.game_starting.connect(_on_game_starting)
 
