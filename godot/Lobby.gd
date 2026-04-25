@@ -20,6 +20,7 @@ var _in_game_world   := false  # true once Panel+bg are hidden
 
 # Created dynamically — host only
 var _start_game_btn: Button = null
+var _bg_image: TextureRect  = null
 
 
 func _ready():
@@ -28,6 +29,17 @@ func _ready():
 	host_panel.visible    = false
 	join_panel.visible    = false
 	host_hud.visible      = false
+
+	# Replace the plain ColorRect with the actual background image.
+	bg_rect.visible = false
+	_bg_image = TextureRect.new()
+	_bg_image.texture      = load("res://CatHacksBackgroundImg-01.png")
+	_bg_image.stretch_mode = TextureRect.STRETCH_SCALE
+	_bg_image.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+	_bg_image.set_anchors_preset(Control.PRESET_FULL_RECT)
+	# Insert behind everything else (index 0 = bottom of draw order).
+	add_child(_bg_image)
+	move_child(_bg_image, 0)
 
 	NetworkManager.room_updated.connect(_on_room_updated)
 	NetworkManager.game_starting.connect(_on_game_starting)
@@ -66,6 +78,8 @@ func _show_main_menu():
 func _enter_game_world():
 	$Panel.visible  = false
 	bg_rect.visible = false
+	if _bg_image:
+		_bg_image.visible = false
 	_in_game_world  = true
 
 
