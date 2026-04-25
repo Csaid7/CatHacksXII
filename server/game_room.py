@@ -2,7 +2,6 @@ import asyncio
 import random
 
 # Fixed platform positions — must match the block positions in Godot's main.tscn
-# BlockA, B, C, D are placed at these exact coordinates in the scene
 PLATFORM_POSITIONS = {
     "A": {"x": 102,  "y": 460},
     "B": {"x": 380,  "y": 322},
@@ -13,13 +12,17 @@ PLATFORM_POSITIONS = {
 # One distinct color per player slot — sent to Godot and applied as a sprite tint
 PLAYER_COLORS = ["ff4444", "4488ff", "44dd44", "ffcc00"]
 
-# Spread players out on spawn so they don't stack on top of each other
+# Starting positions matching the Player1-4 nodes in main.tscn.
 PLAYER_STARTS = [
-    {"x": 100, "y": 0},
-    {"x": 250, "y": 0},
-    {"x": 400, "y": 0},
-    {"x": 550, "y": 0},
+    {"x": 419, "y": 412},
+    {"x": 491, "y": 412},
+    {"x": 567, "y": 410},
+    {"x": 648, "y": 404},
 ]
+
+# Y coordinate below which a player is considered to have fallen off the map.
+# The floor in Godot sits at y≈643; anything past 750 is clearly off-screen.
+FALL_THRESHOLD = 750
 
 MAX_ROUNDS  = 15
 ROUND_TIME  = 15   # seconds
@@ -31,15 +34,16 @@ class GameRoom:
         self.sio          = sio
         self.room_code    = room_code
         self.players      = {}     # sid → {name, x, y, facing, score, number}
+        self.host_sid     = None   # first player to join; only they can start the game
         self.round_num    = 0
         self.time_left    = ROUND_TIME
         self.current_q    = None
         self._timer       = None   # asyncio Task for the countdown
         self._broadcast   = None   # asyncio Task for the position stream
         self.round_active    = False
-        self._scored         = set()   # sids that already claimed a point this round
         self._question_pool  = []      # shuffled pool — questions are popped in order so no repeats
         self._correct_pos    = None    # position of the correct platform this round {x, y}
+        self._fallen         = set()   # sids that have fallen off the map this round
 
     # ------------------------------------------------------------------
     # Lobby
@@ -47,6 +51,8 @@ class GameRoom:
 
     async def add_player(self, sid: str, name: str):
         number = len(self.players) + 1
+        if self.host_sid is None:
+            self.host_sid = sid   # first joiner is the host
         start  = PLAYER_STARTS[number - 1]
         self.players[sid] = {
             "name":   name,
@@ -58,18 +64,13 @@ class GameRoom:
             "color":  PLAYER_COLORS[number - 1],  # unique color per slot
         }
         await self._broadcast_room_update(sid)
-        # Fourth player joining fills the room — kick off the game automatically
-        if len(self.players) == 3:
-            asyncio.create_task(self.start_game())
 
     async def player_left(self, sid: str):
         self.players.pop(sid, None)
-        # Cancel background tasks — without this they'd loop forever on a shrinking player list
         if self._timer:
             self._timer.cancel()
         if self._broadcast:
             self._broadcast.cancel()
-        # Let remaining players know someone disconnected
         if self.players:
             await self.sio.emit(
                 "player_left",
@@ -82,8 +83,6 @@ class GameRoom:
             "players":     self._players_list(),
             "playerCount": len(self.players),
         }
-        # Everyone needs the updated player list, but yourId is only meaningful to the new player.
-        # Send to the whole room first (skipping new_sid), then send to new_sid with yourId included.
         await self.sio.emit("room_update", payload, room=self.room_code, skip_sid=new_sid)
         await self.sio.emit("room_update", {**payload, "yourId": new_sid}, to=new_sid)
 
@@ -113,9 +112,17 @@ class GameRoom:
         await self._start_round()
 
     async def _start_round(self):
-        self.round_num  += 1
-        self.time_left   = ROUND_TIME
-        self._scored     = set()  # reset so everyone can score once in this round
+        self.round_num += 1
+        self.time_left  = ROUND_TIME
+        self._fallen    = set()   # everyone is alive again at the start of each round
+
+        # Reset all player positions to their starting spots.
+        # Clients teleport the local player themselves (Player.gd respawn());
+        # remote players snap via the first state_update broadcast.
+        for sid, player in self.players.items():
+            start = PLAYER_STARTS[player["number"] - 1]
+            player["x"] = start["x"]
+            player["y"] = start["y"]
 
         # Merge each platform with its fixed Godot scene position by ID
         platforms = [
@@ -146,10 +153,9 @@ class GameRoom:
                 await self.sio.emit("tick", {"timeLeft": self.time_left}, room=self.room_code)
             await self._end_round()
         except asyncio.CancelledError:
-            pass  # task was cancelled (e.g. player disconnected mid-round)
+            pass
 
     async def _broadcast_loop(self):
-        # Push all player positions to every client ~20 times per second
         try:
             while True:
                 await self.sio.emit(
@@ -157,7 +163,7 @@ class GameRoom:
                     {"players": self._players_list()},
                     room=self.room_code,
                 )
-                await asyncio.sleep(1 / 60)
+                await asyncio.sleep(1 / 20)
         except asyncio.CancelledError:
             pass
 
@@ -173,6 +179,8 @@ class GameRoom:
             cy = self._correct_pos["y"]
             print(f"[Round end] Correct platform pos: x={cx} y={cy}")
             for sid, player in self.players.items():
+                if sid in self._fallen:
+                    continue
                 dx = abs(player["x"] - cx)
                 dy = abs(player["y"] - cy)
                 print(f"  Player {player['name']}: x={player['x']:.0f} y={player['y']:.0f} | dx={dx:.0f} dy={dy:.0f}")
@@ -202,7 +210,6 @@ class GameRoom:
         asyncio.create_task(self.start_game())
 
     async def _end_game(self):
-        # Highest score wins; if tied, the player who appears first in the dict wins
         ranked = sorted(self.players.values(), key=lambda p: p["score"], reverse=True)
         await self.sio.emit("game_over", {
             "winner":      ranked[0]["name"],
@@ -217,10 +224,13 @@ class GameRoom:
         player = self.players.get(sid)
         if not player:
             return
-        # Fall back to the stored value if a field is missing from the packet
         player["x"]      = data.get("x",      player["x"])
         player["y"]      = data.get("y",      player["y"])
         player["facing"] = data.get("facing", player["facing"])
+
+        # Mark players who have fallen off the map — permanent for this round
+        if player["y"] > FALL_THRESHOLD:
+            self._fallen.add(sid)
 
     async def handle_attack(self, sid: str, data: dict):
         attacker = self.players.get(sid)
@@ -233,21 +243,14 @@ class GameRoom:
                 continue
             dx = abs(attacker["x"] - target["x"])
             dy = abs(attacker["y"] - target["y"])
-            # ATTACK_X=90, ATTACK_Y=70 — these must stay in sync with Player.gd constants
             if dx < 90 and dy < 70:
                 await self.sio.emit("apply_knockback", {"direction": facing}, to=target_sid)
-
-    async def award_point(self, sid: str):
-        # Points are now awarded server-side at round end based on position
-        # claim_point from clients is ignored — kept for API compatibility
-        pass
 
     # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------
 
     def _players_list(self):
-        # Flatten the players dict into a list with sid included as "id"
         return [
             {
                 "id":     sid,

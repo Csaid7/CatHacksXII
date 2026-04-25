@@ -8,27 +8,26 @@ extends CanvasLayer
 @onready var code_input      = $Panel/VBox/JoinMenu/CodeInput
 @onready var name_input      = $Panel/VBox/NameInput
 @onready var error_label     = $Panel/VBox/ErrorLabel
-@onready var bg_rect         = $ColorRect  # the full-screen dark background
-
-# Full-screen waiting panel (used by joiners only)
+@onready var bg_rect         = $ColorRect
 @onready var waiting_panel   = $WaitingPanel
 @onready var waiting_label   = $WaitingPanel/Label
-
-# Small corner HUD shown to the host while they wait in-game
-# Add a Panel or Label called "HostHUD" as a direct child of the CanvasLayer
 @onready var host_hud        = $HostHUD
 @onready var host_hud_label  = $HostHUD/Label
 
-var _generated_code := ""
-var _is_hosting     := false
+var _generated_code  := ""
+var _is_hosting      := false
+var _in_game_world   := false  # true once Panel+bg are hidden
+
+# Created dynamically — host only
+var _start_game_btn: Button = null
 
 
 func _ready():
-	error_label.text   = ""
+	error_label.text      = ""
 	waiting_panel.visible = false
-	host_panel.visible = false
-	join_panel.visible = false
-	host_hud.visible   = false
+	host_panel.visible    = false
+	join_panel.visible    = false
+	host_hud.visible      = false
 
 	NetworkManager.room_updated.connect(_on_room_updated)
 	NetworkManager.game_starting.connect(_on_game_starting)
@@ -44,10 +43,10 @@ func _ready():
 # ── Main menu ──────────────────────────────────────────────────────────────────
 
 func _on_host_pressed():
-	_generated_code = _generate_code()
+	_generated_code      = _generate_code()
 	host_code_label.text = _generated_code
-	main_panel.visible = false
-	host_panel.visible = true
+	main_panel.visible   = false
+	host_panel.visible   = true
 
 
 func _on_join_menu_pressed():
@@ -62,6 +61,14 @@ func _show_main_menu():
 	error_label.text   = ""
 
 
+# ── Shared: enter game world ───────────────────────────────────────────────────
+
+func _enter_game_world():
+	$Panel.visible  = false
+	bg_rect.visible = false
+	_in_game_world  = true
+
+
 # ── Host flow ──────────────────────────────────────────────────────────────────
 
 func _on_start_host():
@@ -72,9 +79,24 @@ func _on_start_host():
 	error_label.text = ""
 	_is_hosting = true
 	NetworkManager.join_room(_generated_code, player_name)
-	# Hide the form panel AND the dark background so the game world is visible
-	$Panel.visible  = false
-	bg_rect.visible = false
+	_enter_game_world()
+
+	# Build the Start Game button as a sibling of the HostHUD panel,
+	# NOT inside it — avoids Panel clipping issues.
+	_start_game_btn              = Button.new()
+	_start_game_btn.text         = "▶  Start Game"
+	_start_game_btn.custom_minimum_size = Vector2(200, 40)
+	# Anchor to top-left, just below the HostHUD (which has min-size 300×60)
+	_start_game_btn.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_start_game_btn.position     = Vector2(8, 72)
+	_start_game_btn.pressed.connect(_on_start_game_pressed)
+	add_child(_start_game_btn)   # child of CanvasLayer, not of HostHUD
+
+
+func _on_start_game_pressed():
+	if _start_game_btn:
+		_start_game_btn.disabled = true
+	NetworkManager.request_start_game()
 
 
 # ── Join flow ──────────────────────────────────────────────────────────────────
@@ -92,47 +114,44 @@ func _on_join_pressed():
 
 	error_label.text = ""
 	NetworkManager.join_room(room_code, player_name)
+	# Server confirmation arrives in _on_room_updated; enter game world there
 
 
 # ── Server responses ───────────────────────────────────────────────────────────
 
 func _on_room_updated(players: Array, your_id: String, player_count: int):
-	# yourId is only sent once — when we first join.
-	# Subsequent updates (other players joining) omit it, so guard against overwriting with "".
+	# yourId is only sent once — on subsequent updates guard against overwriting with "".
 	if your_id != "":
 		get_parent().my_id = your_id
+
+	# Enter the game world on first confirmed join (host already did this, but safe to repeat)
+	if not _in_game_world:
+		_enter_game_world()
 
 	var names = []
 	for p in players:
 		names.append(p.get("name", "?"))
 
-	if _is_hosting:
-		# Host is already in the game world — just update the small corner HUD
-		host_hud.visible = true
-		host_hud_label.text = (
-			"Room: %s  |  Players: %d\n%s"
-			% [_generated_code, player_count, "  ".join(names)]
-		)
-	else:
-		# Joiner sees a full-screen waiting screen until the game starts
-		$Panel.visible = false
-		waiting_panel.visible = true
-		var code = code_input.text.to_upper()
-		waiting_label.text = (
-			"Room Code: %s\n\nWaiting for players... (%d)\n\n%s"
-			% [code, player_count, "\n".join(names)]
-		)
+	# Everyone sees the same small corner HUD while in the lobby
+	host_hud.visible    = true
+	var room_label       = _generated_code if _is_hosting else code_input.text.to_upper()
+	var waiting_line     = "" if _is_hosting else "\nWaiting for host to start..."
+	host_hud_label.text  = (
+		"Room: %s  |  Players: %d\n%s%s"
+		% [room_label, player_count, "  ".join(names), waiting_line]
+	)
 
 
 func _on_game_starting(countdown: int):
-	# Hide everything — both host HUD and joiner waiting screen
-	host_hud.visible   = false
-	waiting_panel.visible = false
+	# Hide the lobby HUD for everyone
+	host_hud.visible = false
+	if _start_game_btn:
+		_start_game_btn.visible = false
 
 	if not _is_hosting:
-		# Joiner needs a brief countdown overlay before the game reveals
+		# Joiners get a brief countdown overlay
 		waiting_panel.visible = true
-		waiting_label.text = "Game starting in %d..." % countdown
+		waiting_label.text    = "Game starting in %d..." % countdown
 		await get_tree().create_timer(float(countdown)).timeout
 		waiting_panel.visible = false
 
@@ -143,7 +162,7 @@ func _on_game_starting(countdown: int):
 
 func _generate_code() -> String:
 	var letters = "ABCDEFGHJKLMNPQRSTUVWXYZ"
-	var code = ""
+	var code    = ""
 	for i in 4:
 		code += letters[randi() % letters.length()]
 	return code

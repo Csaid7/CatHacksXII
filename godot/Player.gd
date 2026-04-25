@@ -15,6 +15,9 @@ var _prev_remote_x: float = 0.0
 var _orig_layer: int = 0
 var _orig_mask:  int = 0
 
+# Scene-defined starting position — saved before we hide the node.
+var _spawn_position: Vector2
+
 # Set to true by main.gd once the server tells us which player id is ours.
 # Uses a setter so the node reveals and re-enables collision the moment it's assigned.
 var is_local: bool = false:
@@ -24,12 +27,14 @@ var is_local: bool = false:
 
 
 func _ready():
+	_spawn_position = position          # save editor position before anything moves
 	_orig_layer = collision_layer
 	_orig_mask  = collision_mask
 	# Hide and disable collision until the server slots this node to a real player.
 	visible         = false
 	collision_layer = 0
 	collision_mask  = 0
+	animation.speed_scale = 2.5
 	NetworkManager.knockback_received.connect(_on_knockback)
 
 
@@ -37,6 +42,13 @@ func _show():
 	visible         = true
 	collision_layer = _orig_layer
 	collision_mask  = _orig_mask
+
+
+# Teleport back to the scene starting position and zero velocity.
+# Called by main.gd at the start of each round.
+func respawn():
+	position = _spawn_position
+	velocity  = Vector2.ZERO
 
 
 func _physics_process(delta):
@@ -106,7 +118,7 @@ func apply_remote_state(rx: float, ry: float, rfacing: int):
 
 # Called by NetworkManager when the server says this player was hit.
 func _on_knockback(direction: int):
-	velocity = Vector2(direction * 1500, -250)
+	velocity = Vector2(direction * 1500, -100)
 
 
 func _on_animated_sprite_2d_animation_finished():

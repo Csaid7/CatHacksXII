@@ -42,7 +42,6 @@ func _build_hud():
 	_hud.layer = 10
 	add_child(_hud)
 
-	# Timer — top-right corner
 	_timer_label = Label.new()
 	_timer_label.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	_timer_label.position             = Vector2(-110, 12)
@@ -51,7 +50,6 @@ func _build_hud():
 	_timer_label.text = ""
 	_hud.add_child(_timer_label)
 
-	# Scores — top-left corner
 	_score_label = Label.new()
 	_score_label.position = Vector2(12, 12)
 	_score_label.text     = ""
@@ -79,7 +77,6 @@ func _build_hud():
 	_result_label.add_theme_color_override("font_color", Color(1, 1, 0))
 	_hud.add_child(_result_label)
 
-
 	# Restart button — hidden until game over
 	_restart_btn = Button.new()
 	_restart_btn.set_anchors_preset(Control.PRESET_CENTER)
@@ -88,7 +85,6 @@ func _build_hud():
 	_restart_btn.visible  = false
 	_restart_btn.pressed.connect(_on_restart_pressed)
 	_hud.add_child(_restart_btn)
-
 
 
 # ── Claim-point detection ──────────────────────────────────────────────────────
@@ -153,6 +149,10 @@ func _on_round_started(round: int, max_rounds: int, question: String, platforms:
 	_claimed             = false
 	# clear the result label above the question at the start of each new round
 	_result_label.text   = ""
+
+	# Respawn local player at their scene-defined starting position
+	if local_player != null:
+		local_player.respawn()
 
 	for block in answerBlocks:
 		block.reset_highlight()
