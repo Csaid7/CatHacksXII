@@ -5,5 +5,10 @@
     "security-guidance@claude-plugins-official": true,
     "playwright@claude-plugins-official": true,
     "github@claude-plugins-official": true
+  },
+  "permissions": {
+    "allow": [
+      "Bash(.venv\\\\Scripts\\\\pip install *)"
+    ]
   }
 }
