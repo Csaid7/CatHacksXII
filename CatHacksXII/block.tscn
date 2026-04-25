@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dv4uec4dllhyj"]
+
+[ext_resource type="Texture2D" uid="uid://c7ri3m5merh1t" path="res://Screenshot 2026-04-15 153837.png" id="1_6k022"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8pcje"]
+size = Vector2(1301, 730)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-1.5, -1)
+shape = SubResource("RectangleShape2D_8pcje")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_6k022")
