@@ -1,9 +1,12 @@
-import anthropic
+import google.generativeai as genai
 import json
 import asyncio
+import os
 import random
 
-client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env automatically
+# Reads GEMINI_API_KEY from environment — set this before running the server
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 TOPICS = [
     "science", "history", "pop culture", "geography",
@@ -30,12 +33,8 @@ async def generate_question(topic: str = None) -> dict:
 
 def _sync_generate(topic: str) -> dict:
     try:
-        msg = client.messages.create(
-            model="claude-haiku-4-5-20251001",  # fast + cheap for a hackathon
-            max_tokens=400,
-            messages=[{
-                "role": "user",
-                "content": f"""Generate a trivia question about: {topic}
+        response = model.generate_content(
+            f"""Generate a trivia question about: {topic}
 
 Rules:
 - Wrong answers must be PLAUSIBLE — players should genuinely debate
@@ -53,9 +52,10 @@ Return ONLY valid JSON, no markdown, no extra text:
     {{"id": "D", "label": "...", "isCorrect": false}}
   ]
 }}"""
-            }]
         )
-        return json.loads(msg.content[0].text)
+        # Gemini sometimes wraps output in ```json ... ``` — strip it if present
+        text = response.text.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+        return json.loads(text)
     except Exception as e:
         print(f"[question_gen] Error: {e} — using fallback question")
         return FALLBACK_QUESTION
