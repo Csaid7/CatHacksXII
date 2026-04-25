@@ -1,0 +1,35 @@
+<!--
+  socket_inject.html
+  ==================
+  After you run "Project → Export → HTML5" in Godot, open the generated
+  index.html and paste the block below BEFORE the closing </body> tag.
+
+  Change SERVER_URL to your Railway deployment URL when going live.
+-->
+
+<script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+<script>
+  // ── Connect to the server ──────────────────────────────────────────────────
+  var SERVER_URL = "http://localhost:3000";   // ← swap for Railway URL on deploy
+  window._socket = io(SERVER_URL, { transports: ["websocket"] });
+
+  window._socket.on("connect", function () {
+    console.log("[AnswerRush] connected as", window._socket.id);
+    window._mySocketId = window._socket.id;
+  });
+
+  window._socket.on("disconnect", function () {
+    console.warn("[AnswerRush] disconnected");
+  });
+
+  window._socket.on("error", function (data) {
+    alert("Server error: " + data.message);
+  });
+
+  // ── Event queues polled by NetworkManager.gd every frame ──────────────────
+  // (NetworkManager.gd sets these up — this file just bootstraps the socket)
+  window._gdEvent = "";
+  window._gdState = "";
+  window._gdKnock = "";
+  window._gdTick  = "";
+</script>
